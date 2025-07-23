@@ -1,0 +1,795 @@
+:root {
+    --electric-blue: #007bff;
+    --dark-blue: #0a0e1c;
+    --white: #ffffff;
+    --light-gray: #f0f4f8;
+    --manrope: 'Manrope', sans-serif;
+    --secondary-blue: #004d99;
+    --text-color: #333333; /* A dark gray for text */
+    --background-color: var(--light-gray);
+    --card-background: var(--white);
+    --border-color: rgba(0, 0, 0, 0.1);
+    --subtitle-color: #DBEAFE;
+}
+
+body {
+    margin: 0;
+    font-family: var(--manrope);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+/* Loading Screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--card-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.logo {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--electric-blue);
+}
+
+.progress-bar-container {
+    width: 80%;
+    max-width: 400px;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: var(--electric-blue);
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+/* Main Content */
+#main-content {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Navbar Container */
+ .navbar-container {
+    max-width: 1000px; /* Max width for desktop */
+    background-color: #fff; /* Slightly lighter dark grey for navbar */
+    border-radius: 50px; /* Pill shape */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); /* Darker, more prominent shadow */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px; /* Vertical and horizontal padding */
+    box-sizing: border-box;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+
+    /* Sticky properties for universal centering */
+    position: sticky;
+    top: 20px; /* Stick to 20px from the top of the viewport */
+    left: 0; /* Allow it to stretch from left edge */
+    right: 0; /* Allow it to stretch to right edge */
+    margin: 0 auto; /* This centers the element when max-width is hit */
+
+    z-index: 1000; /* Ensure it stays on top of other content */
+    min-width: 320px; /* Minimum width for the navbar itself */
+    transition: all 0.3s ease; /* Transition all relevant properties for smoothness */
+}
+
+.navbar-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--electric-blue);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.navbar-logo i {
+    color: var(--electric-blue);
+    width: 24px;
+    height: 24px;
+}
+
+/* Navigation Links (Desktop) */
+.navbar-links-desktop {
+    display: flex; /* Always display on desktop */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1; /* Allow links to take available space */
+    justify-content: center; /* Center the links */
+    transition: all 0.3s ease-in-out;
+}
+
+.navbar-links-desktop li {
+    margin: 0 15px;
+}
+
+.navbar-links-desktop a {
+    text-decoration: none;
+    color: #0a0e1c; /* Off-white text for links */
+    font-weight: 500;
+    font-size: 1.05em;
+    padding: 10px 5px;
+    display: block;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.navbar-links-desktop a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #007BFF; /* Blue accent color */
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.navbar-links-desktop a:hover {
+    color: #007BFF; /* Blue accent on hover */
+}
+
+.navbar-links-desktop a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Auth Buttons Container (Desktop) */
+.navbar-auth-desktop {
+    display: flex; /* Always display on desktop */
+    align-items: center;
+    gap: 15px; /* Space between buttons */
+}
+
+.navbar-auth-desktop button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px; /* Rounded buttons */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Prevent button text from wrapping */
+    font-family: inherit;
+}
+
+.navbar-auth-desktop .signup-btn {
+    background-color: #007BFF; /* Blue accent primary button */
+    color: #FFFFFF; /* White text for contrast */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.navbar-auth-desktop .signup-btn:hover {
+    background-color: #0056b3; /* Slightly darker blue on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+.navbar-auth-desktop .login-btn {
+    background-color: transparent;
+    color: #007BFF; /* Blue accent text for login button */
+    border: 2px solid #007BFF; /* Blue accent border */
+}
+
+.navbar-auth-desktop .login-btn:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Subtle blue tint on hover */
+    color: #007BFF;
+    border-color: #007BFF;
+}
+
+/* Hamburger Menu Icon */
+.hamburger-menu {
+    display: none; /* Hidden by default on larger screens */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px; /* Reduced width */
+    height: 18px; /* Reduced height */
+    cursor: pointer;
+    position: relative;
+    z-index: 100; /* Ensure it's above other elements when open */
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--electric-blue); /* Light bars for dark background */
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hamburger animation for 'x' shape */
+.hamburger-menu.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg); /* Adjusted for new height */
+}
+
+.hamburger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg); /* Adjusted for new height */
+}
+
+/* Mobile Menu Content (Dropdown) */
+.mobile-menu-content {
+    display: flex; /* Flex container for links and auth buttons */
+    flex-direction: column; /* Stack them vertically */
+    width: calc(100% - 40px); /* Full width minus padding for mobile dropdown */
+    max-width: 400px; /* Max width for mobile menu */
+    text-align: center;
+    position: absolute;
+    top: 100%; /* Position right below the navbar */
+    margin-top: 10px; /* Space between navbar and dropdown menu */
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px); /* Initial hidden state with slide effect */
+    background-color: #fff; /* Dark grey theme background for dropdown */
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); /* Darker shadow */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 99;
+    transition: all 0.3s ease-in-out;
+    padding-bottom: 20px; /* Padding for buttons at the bottom */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Mobile specific links and auth buttons, nested inside mobile-menu-content */
+.mobile-menu-content .navbar-links-mobile {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Ensure these are flex for stacking */
+    flex-direction: column;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.mobile-menu-content .navbar-links-mobile li {
+    margin: 10px 0;
+}
+
+.mobile-menu-content .navbar-links-mobile a {
+    text-decoration: none;
+    color: #0a0e1c; /* Off-white text for mobile links */
+    font-weight: 500;
+    font-size: 1.1em;
+    padding: 12px 0;
+    display: block;
+    position: relative;
+    transition: color 0.3s ease;
+}
+.mobile-menu-content .navbar-links-mobile a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #007BFF; /* Blue accent */
+    transition: width 0.3s ease, left 0.3s ease;
+}
+.mobile-menu-content .navbar-links-mobile a:hover {
+    color: #007BFF; /* Blue accent on hover */
+}
+.mobile-menu-content .navbar-links-mobile a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+
+.mobile-menu-content .navbar-auth-mobile {
+    display: flex; /* Ensure these are flex for stacking */
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0 0;
+    gap: 10px;
+}
+
+.mobile-menu-content .navbar-auth-mobile button {
+    width: calc(100% - 60px); /* Adjust for parent padding and button margins */
+    margin: 0 auto; /* Center buttons */
+    max-width: 300px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.mobile-menu-content .navbar-auth-mobile .signup-btn {
+    background-color: #007BFF;
+    color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.mobile-menu-content .navbar-auth-mobile .signup-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+}
+
+.mobile-menu-content .navbar-auth-mobile .login-btn {
+    background-color: transparent;
+    color: #007BFF;
+    border: 2px solid #007BFF;
+}
+
+.mobile-menu-content .navbar-auth-mobile .login-btn:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #007BFF;
+    border-color: #007BFF;
+}
+
+
+/* Responsive Design - Media Queries */
+@media (max-width: 768px) {
+    .navbar-container {
+        /* Allow sticky element to take full width of viewport minus fixed padding */
+        padding: 10px 20px;
+         /* Slightly less rounded on small screens */
+        top: 15px; /* Stick closer to top on mobile */
+        max-width: calc(100% - 40px); /* Allow it to be full width with 20px side margin */
+        /* Remove any left/right/transform here as margin: auto is primary for centering */
+        /* The margin: 0 auto; already ensures centering */
+    }
+
+    .hamburger-menu {
+        display: flex; /* Show hamburger on smaller screens */
+    }
+
+    /* Hide desktop links and auth buttons on mobile */
+    .navbar-links-desktop,
+    .navbar-auth-desktop {
+        display: none;
+    }
+
+    /* Show mobile menu content when menu is open */
+    .navbar-container.menu-open .mobile-menu-content {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0); /* Slide into view */
+        pointer-events: auto;
+        /* Width already set at 100% minus padding in .mobile-menu-content general rules */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-logo {
+        font-size: 1.5em;
+    }
+
+    .navbar-container {
+        padding: 10px 15px;
+    }
+
+    .hamburger-menu {
+        width: 25px; /* Stay same as 768px */
+        height: 18px; /* Stay same as 768px */
+    }
+}
+
+
+
+
+
+.outer {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0f0f0;
+}
+
+.inner {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.titanvault-login {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 48px;
+            width: 100%;
+            margin: 0 auto;
+            max-width: 480px;
+        }
+
+        .titanvault-login .logo {
+            width: 80px;
+            height: 80px;
+            background: #4285f4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+        }
+
+        .titanvault-login .logo i {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .titanvault-login .title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .titanvault-login .subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .titanvault-login .form-group {
+            margin-bottom: 24px;
+        }
+
+        .titanvault-login .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .titanvault-login .input-wrapper {
+            position: relative;
+        }
+
+        .titanvault-login .form-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9fafb;
+            transition: all 0.2s;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .titanvault-login .form-input:focus {
+            outline: none;
+            border-color: #4285f4;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+        }
+
+        .titanvault-login .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            width: 20px;
+            height: 20px;
+        }
+
+        .titanvault-login .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+
+        .titanvault-login .password-toggle:hover {
+            color: #6b7280;
+        }
+
+        .titanvault-login .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .titanvault-login .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .titanvault-login .checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: #4285f4;
+        }
+
+        .titanvault-login .checkbox-label {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .titanvault-login .forgot-link {
+            color: #4285f4;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .titanvault-login .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .titanvault-login .submit-btn {
+            width: 100%;
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 32px;
+        }
+
+        .titanvault-login .submit-btn:hover {
+            background: #3367d6;
+        }
+
+        .titanvault-login .submit-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .titanvault-login .auth-link {
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+
+        .titanvault-login .auth-link a {
+            color: #4285f4;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .titanvault-login .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .titanvault-login .security-text {
+            text-align: center;
+            font-size: 12px;
+            color: #9ca3af;
+        }
+
+        .titanvault-login .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            .titanvault-login {
+                padding: 32px 24px;
+            }
+
+            .titanvault-login .title {
+                font-size: 28px;
+            }
+
+            .titanvault-login .form-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+
+
+
+button{
+    font-family: inherit;
+}
+
+
+
+
+
+
+
+
+
+
+
+.bullionfx-footer {
+    background-color: #111827; /* Dark blue-grey background */
+    color: #e2e8f0; /* Light text for contrast */
+    padding: 40px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    border-top: 1px solid #2d3748; /* Subtle top border */
+    display: flex;
+    flex-direction: column; /* Stack content vertically on small screens */
+    align-items: center; /* Center content horizontally */
+    text-align: center; /* Center text for simpler layout */
+}
+
+.footer-content-wrapper {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between main sections */
+}
+
+@media (min-width: 768px) {
+    .bullionfx-footer {
+        text-align: left; /* Align text left on larger screens */
+    }
+    .footer-content-wrapper {
+        flex-direction: row; /* Arrange content in rows on larger screens */
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+}
+
+/* Footer Branding */
+.footer-brand {
+    flex: 2; /* Takes more space on wider screens */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center; /* Center brand elements on small screens */
+}
+
+@media (min-width: 768px) {
+    .footer-brand {
+        align-items: flex-start; /* Align brand elements left on larger screens */
+    }
+}
+
+.footer-logo {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #4299e1; /* BullionFX blue */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-logo svg {
+    width: 28px;
+    height: 28px;
+}
+
+.footer-description {
+    font-size: 0.9em;
+    line-height: 1.5;
+    color: #a0aec0;
+    max-width: 400px; /* Limit width for readability */
+}
+
+/* Social Icons */
+.social-links {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    background-color: #2d3748;
+    border-radius: 6px;
+    color: #e2e8f0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: #4299e1;
+    color: #ffffff;
+}
+
+.social-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Navigation Columns */
+.footer-nav-group {
+    flex: 1;
+    margin-top: 20px; /* Space above nav columns on small screens */
+}
+
+@media (min-width: 768px) {
+    .footer-nav-group {
+        margin-top: 0; /* No extra margin on larger screens */
+    }
+}
+
+.nav-heading {
+    font-size: 1em;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin-bottom: 8px;
+}
+
+.nav-link {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.88em;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #4299e1;
+}
+
+/* Copyright Section */
+.footer-copyright {
+    width: 100%;
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid #2d3748;
+    font-size: 0.85em;
+    color: #a0aec0;
+}
