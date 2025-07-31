@@ -7,7 +7,7 @@
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
 <title>Admin End</title>
-<link rel="icon" href="img.png" type="image/x-icon">
+<link rel="icon" href="./images/titanvault.jpeg" type="image/x-icon">
 <!-- Favicon-->
 <link rel="stylesheet" href="./admin_assets/plugins/bootstrap/css/bootstrap.min.css">
 <!-- Light Gallery Plugin Css -->
@@ -22,7 +22,7 @@
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img class="zmdi-hc-spin" src="img.png" width="48" height="48" alt="uto"></div>
+        <div class="m-t-30"><img class="zmdi-hc-spin" src="./images/titanvault.jpeg" width="48" height="48" alt="uto"></div>
         <p>Please wait...</p>
     </div>
 </div>
@@ -35,13 +35,13 @@
 <aside id="leftsidebar" class="sidebar">
     <div class="navbar-brand">
         <button class="btn-menu ls-toggle-btn" type="button"><i class="zmdi zmdi-menu"></i></button>
-        <a><img src="img.png" width="25" alt="uto"><span class="m-l-10">Bulls</span></a>
+        <a><img src="./images/titanvault.jpeg" width="25" alt="uto"><span class="m-l-10">Bulls</span></a>
     </div>
     <div class="menu">
         <ul class="list">
             <li>
                 <div class="user-info">
-                    <a class="image"><img src="img.png" alt=""></a>
+                    <a class="image"><img src="./images/titanvault.jpeg" alt=""></a>
                     <div class="detail">
                         <h4>BullsTrades</h4>
                         <small>Super Admin</small>                        
