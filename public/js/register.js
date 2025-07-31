@@ -107,7 +107,7 @@
         });
 
         // Form validation
-        const registerForm = document.getElementById('registerForm');
+        // const registerForm = document.getElementById('registerForm');
         const registerSubmitBtn = document.getElementById('registerSubmitBtn');
         const registerErrorMessage = document.getElementById('registerErrorMessage');
 
@@ -146,45 +146,45 @@
         });
 
         // Form submission
-        registerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // registerForm.addEventListener('submit', function(e) {
+        //     e.preventDefault();
             
-            const firstName = document.getElementById('registerFirstName').value;
-            const lastName = document.getElementById('registerLastName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+        //     const firstName = document.getElementById('registerFirstName').value;
+        //     const lastName = document.getElementById('registerLastName').value;
+        //     const email = document.getElementById('registerEmail').value;
+        //     const password = document.getElementById('registerPassword').value;
+        //     const confirmPassword = document.getElementById('registerConfirmPassword').value;
             
-            if (password !== confirmPassword) {
-                showRegisterError('Passwords do not match.');
-                return;
-            }
+        //     if (password !== confirmPassword) {
+        //         showRegisterError('Passwords do not match.');
+        //         return;
+        //     }
             
-            const existingUsers = JSON.parse(localStorage.getItem('titanvault_users') || '[]');
-            if (existingUsers.find(user => user.email === email)) {
-                showRegisterError('An account with this email already exists.');
-                return;
-            }
+        //     const existingUsers = JSON.parse(localStorage.getItem('titanvault_users') || '[]');
+        //     if (existingUsers.find(user => user.email === email)) {
+        //         showRegisterError('An account with this email already exists--.');
+        //         return;
+        //     }
             
-            const newUser = {
-                id: Date.now().toString(),
-                firstName,
-                lastName,
-                email,
-                password,
-                createdAt: new Date().toISOString()
-            };
+        //     const newUser = {
+        //         id: Date.now().toString(),
+        //         firstName,
+        //         lastName,
+        //         email,
+        //         password,
+        //         createdAt: new Date().toISOString()
+        //     };
             
-            existingUsers.push(newUser);
-            localStorage.setItem('titanvault_users', JSON.stringify(existingUsers));
-            localStorage.setItem('titanvault_current_user', JSON.stringify(newUser));
+        //     existingUsers.push(newUser);
+        //     localStorage.setItem('titanvault_users', JSON.stringify(existingUsers));
+        //     localStorage.setItem('titanvault_current_user', JSON.stringify(newUser));
             
-            if (typeof onRegisterSuccess === 'function') {
-                onRegisterSuccess(newUser);
-            } else {
-                window.location.href = 'dashboard.html';
-            }
-        });
+        //     if (typeof onRegisterSuccess === 'function') {
+        //         onRegisterSuccess(newUser);
+        //     } else {
+        //         window.location.href = 'dashboard.html';
+        //     }
+        // });
 
         function showRegisterError(message) {
             registerErrorMessage.textContent = message;

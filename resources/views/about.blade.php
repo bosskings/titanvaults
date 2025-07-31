@@ -19,7 +19,7 @@
     <meta name="twitter:title" content="Titan Vault">
     <meta name="twitter:description" content="TitanVault: Your secure crypto vault for digital assets.">
     <meta name="twitter:image" content="https://opengraph.b-cdn.net/production/images/8efe88f6-331b-4a48-8233-60d9864423fb.png?token=ibGKIZ2KqiYAD9bnF2SMV8alW5MWapy0Itk1RGFw6oY&height=800&width=1200&expires=33288862938">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
     <link rel="stylesheet" href="./css/about.css">

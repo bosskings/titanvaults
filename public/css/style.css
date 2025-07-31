@@ -622,7 +622,7 @@ body {
 }
 
 .crypto-section-container {
-    background-image: url('imgs/cta-section-background.jpg'); /* Replace with your background image */
+    background-image: url('../images/cta-section-background.jpg'); /* Replace with your background image */
     background-size: cover;
     background-position: center;
     padding: 80px 20px;

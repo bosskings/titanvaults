@@ -1,7 +1,7 @@
 // Ensure Lucide icons are created on page load and after dynamic content
 document.addEventListener("DOMContentLoaded", () => {
   window.lucide.createIcons()
-  loadUserData()
+  // loadUserData()
   setupNavigation()
   setupLogoutButtons()
   setupDepositPage()
@@ -59,12 +59,12 @@ function showModal(title, message, onConfirm) {
 // --- Global Functions ---
 
 function loadUserData() {
-  const currentUser = JSON.parse(localStorage.getItem("titanvault_current_user"))
-  if (!currentUser) {
-    // Redirect to login if no user is logged in
-    window.location.href = "login.html"
-    return
-  }
+  // const currentUser = JSON.parse(localStorage.getItem("titanvault_current_user"))
+  // if (!currentUser) {
+  //   // Redirect to login if no user is logged in
+  //   window.location.href = "login.html"
+  //   return
+  // }
 
   // Dashboard specific
   const welcomeMessage = document.getElementById("welcome-message")
@@ -120,11 +120,11 @@ function setupLogoutButtons() {
 
 // --- Dashboard Page Logic ---
 const mockHoldings = [
-  { name: "Bitcoin", ticker: "BTC", balance: 0.5, usdValue: 58943.05, logo: "imgs/btc.svg" },
-  { name: "Ethereum", ticker: "ETH", balance: 10, usdValue: 35973.68, logo: "imgs/eth.svg" },
-  { name: "Solana", ticker: "SOL", balance: 50, usdValue: 8847.74, logo: "imgs/solana.svg" },
-  { name: "Tether", ticker: "USDT", balance: 1000, usdValue: 1000.0, logo: "imgs/usdt.svg" },
-  { name: "USD Coin", ticker: "USDC", balance: 500, usdValue: 500.0, logo: "imgs/usdc.svg" },
+  { name: "Bitcoin", ticker: "BTC", balance: 0.5, usdValue: 58943.05, logo: "./images/btc.svg" },
+  { name: "Ethereum", ticker: "ETH", balance: 10, usdValue: 35973.68, logo: "./images/eth.svg" },
+  { name: "Solana", ticker: "SOL", balance: 50, usdValue: 8847.74, logo: "./images/solana.svg" },
+  { name: "Tether", ticker: "USDT", balance: 1000, usdValue: 1000.0, logo: "./images/usdt.svg" },
+  { name: "USD Coin", ticker: "USDC", balance: 500, usdValue: 500.0, logo: "./images/usdc.svg" },
 ]
 
 function renderHoldings() {
@@ -724,7 +724,7 @@ function setupSettingsPage() {
         localStorage.setItem("titanvault_users", JSON.stringify(allUsers))
 
         showToast("Settings saved successfully!", "success")
-        loadUserData() // Reload data to reflect changes
+        // loadUserData() // Reload data to reflect changes
       }
     })
   }

@@ -18,41 +18,41 @@
         });
 
         // Form submission
-        const loginForm = document.getElementById('loginForm');
+        // const loginForm = document.getElementById('loginForm');
         const loginErrorMessage = document.getElementById('loginErrorMessage');
 
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // loginForm.addEventListener('submit', function(e) {
+        //     e.preventDefault();
             
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+        //     const email = document.getElementById('loginEmail').value;
+        //     const password = document.getElementById('loginPassword').value;
             
-            // Get stored users from localStorage
-            const users = JSON.parse(localStorage.getItem('titanvault_users') || '[]');
+        //     // Get stored users from localStorage
+        //     const users = JSON.parse(localStorage.getItem('titanvault_users') || '[]');
             
-            // Find user with matching email
-            const user = users.find(u => u.email === email);
+        //     // Find user with matching email
+        //     const user = users.find(u => u.email === email);
             
-            if (!user) {
-                showLoginError('No account found with this email address.');
-                return;
-            }
+        //     if (!user) {
+        //         showLoginError('No account found with this email address.');
+        //         return;
+        //     }
             
-            if (user.password !== password) {
-                showLoginError('Incorrect password. Please try again.');
-                return;
-            }
+        //     if (user.password !== password) {
+        //         showLoginError('Incorrect password. Please try again.');
+        //         return;
+        //     }
             
-            // Store current user session
-            localStorage.setItem('titanvault_current_user', JSON.stringify(user));
+        //     // Store current user session
+        //     localStorage.setItem('titanvault_current_user', JSON.stringify(user));
             
-            // Redirect to dashboard or trigger success callback
-            if (typeof onLoginSuccess === 'function') {
-                onLoginSuccess(user);
-            } else {
-                window.location.href = 'dashboard.html';
-            }
-        });
+        //     // Redirect to dashboard or trigger success callback
+        //     if (typeof onLoginSuccess === 'function') {
+        //         onLoginSuccess(user);
+        //     } else {
+        //         window.location.href = 'dashboard.html';
+        //     }
+        // });
 
         function showLoginError(message) {
             loginErrorMessage.textContent = message;

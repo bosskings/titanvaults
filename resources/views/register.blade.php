@@ -19,7 +19,7 @@
     <meta name="twitter:title" content="Titan Vault">
     <meta name="twitter:description" content="TitanVault: Your secure crypto vault for digital assets.">
     <meta name="twitter:image" content="https://opengraph.b-cdn.net/production/images/8efe88f6-331b-4a48-8233-60d9864423fb.png?token=ibGKIZ2KqiYAD9bnF2SMV8alW5MWapy0Itk1RGFw6oY&height=800&width=1200&expires=33288862938">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
     <link rel="stylesheet" href="./css/register.css">
@@ -83,14 +83,16 @@
         
         <div class="error-message" id="registerErrorMessage"></div>
         
-        <form id="registerForm">
+        <form id="registerForm" method="POST" action="{{ route('register')}}" >
+            @csrf
             <div class="form-group">
                 <div class="form-row">
                     <div>
                         <label class="form-label" for="registerFirstName">First Name</label>
                         <div class="input-wrapper">
                             <i data-lucide="user" class="input-icon"></i>
-                            <input 
+                            <input
+                                name="first_name" 
                                 type="text" 
                                 id="registerFirstName" 
                                 class="form-input" 
@@ -104,6 +106,7 @@
                         <div class="input-wrapper">
                             <i data-lucide="user" class="input-icon"></i>
                             <input 
+                                name="last_name"
                                 type="text" 
                                 id="registerLastName" 
                                 class="form-input" 
@@ -120,6 +123,7 @@
                 <div class="input-wrapper">
                     <i data-lucide="mail" class="input-icon"></i>
                     <input 
+                        name="email"
                         type="email" 
                         id="registerEmail" 
                         class="form-input" 
@@ -134,6 +138,7 @@
                 <div class="input-wrapper">
                     <i data-lucide="lock" class="input-icon"></i>
                     <input 
+                        name="password"
                         type="password" 
                         id="registerPassword" 
                         class="form-input" 
@@ -202,7 +207,7 @@
         </form>
         
         <div class="auth-link">
-            Already have an account? <a href="#" onclick="showLoginForm()">Sign in</a>
+            Already have an account? <a href="{{ route('login') }}" {{--onclick="showLoginForm()"--}}>Sign in</a>
         </div>
         
         <p class="security-text">Your account will be protected by military-grade encryption</p>
@@ -261,10 +266,11 @@
 </main>
 
     </div>
-<script>
-    lucide.createIcons()
-  </script>
-    <script src="script.js"></script>
-    <script src="register.js"></script>
+    <script>
+        lucide.createIcons()
+    </script>
+
+    <script src="./js/script.js"></script>
+    <script src="./js/register.js"></script>
 </body>
 </html>

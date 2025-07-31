@@ -30,47 +30,48 @@
 </head>
 <body>
     <div id="main-content">
+        
         <nav class="navbar-container">
-        <a href="index.html" class="navbar-logo"><i data-lucide="shield"></i> TitanVault</a>
+            <a href="index.html" class="navbar-logo"><i data-lucide="shield"></i> TitanVault</a>
 
-        <div class="hamburger-menu" id="hamburgerMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <!-- Desktop/Tablet View Navigation Links -->
-        <ul class="navbar-links-desktop" id="navbarLinksDesktop">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-
-        <!-- Desktop/Tablet View Auth Buttons -->
-        <div class="navbar-auth-desktop" id="navbarAuthDesktop">
-           <a href="register.html"><button class="signup-btn">Sign Up</button></a> 
-            <a href="login.html"><button class="login-btn">Login</button></a>
-        </div>
-
-        <!-- Mobile Menu Content (hidden on desktop, shown on mobile via JS) -->
-        <div class="mobile-menu-content" id="mobileMenuContent">
-            <ul class="navbar-links-mobile">
-               <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="#">Contact</a></li>
-            </ul>
-            <div class="navbar-auth-mobile">
-                <a href="register.html"><button class="signup-btn">Sign Up</button></a> 
-            <a href="login.html"><button class="login-btn">Login</button></a>
+            <div class="hamburger-menu" id="hamburgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-        </div>
-    </nav>
 
-        <main>
+            <!-- Desktop/Tablet View Navigation Links -->
+            <ul class="navbar-links-desktop" id="navbarLinksDesktop">
+                <li><a href="{{ route('home')}} ">Home</a></li>
+                <li><a href="{{ route('about')}} ">About</a></li>
+                <li><a href="{{ route('contact')}}">Contact</a></li>
+            </ul>
+
+            <!-- Desktop/Tablet View Auth Buttons -->
+            <div class="navbar-auth-desktop" id="navbarAuthDesktop">
+            <a href="{{ route('register')}}"><button class="signup-btn">Sign Up</button></a> 
+                <a href="{{ route('login')}}"><button class="login-btn">Login</button></a>
+            </div>
+
+            <!-- Mobile Menu Content (hidden on desktop, shown on mobile via JS) -->
+            <div class="mobile-menu-content" id="mobileMenuContent">
+                <ul class="navbar-links-mobile">
+                <li><a href="{{ route('home')}}">Home</a></li>
+                <li><a href="{{ route('about')}}">About</a></li>
+                <li><a href="{{ route('contact')}}">Contact</a></li>
+                </ul>
+                <div class="navbar-auth-mobile">
+                    <a href="{{ route('register')}}"><button class="signup-btn">Sign Up</button></a> 
+                <a href="{{ route('login')}}"><button class="login-btn">Login</button></a>
+                </div>
+            </div>
+        </nav>
+
+    <main>
     
-<div class="outer">
+    <div class="outer">
     <div class="inner">
-<div class="titanvault-login">
+        <div class="titanvault-login">
         <div class="logo">
             <i data-lucide="shield"></i>
         </div>
@@ -80,12 +81,26 @@
         
         <div class="error-message" id="loginErrorMessage"></div>
         
-        <form id="loginForm">
+        <form id="loginForm" method="POST" action="{{ route('login') }}">
+            @csrf
+
+
+            @if ($errors->any())
+                <div class="form-group" style="color: red;">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="form-group">
                 <label class="form-label" for="loginEmail">Email Address</label>
                 <div class="input-wrapper">
                     <i data-lucide="mail" class="input-icon"></i>
                     <input 
+                        name="email"
                         type="email" 
                         id="loginEmail" 
                         class="form-input" 
@@ -100,6 +115,7 @@
                 <div class="input-wrapper">
                     <i data-lucide="lock" class="input-icon"></i>
                     <input 
+                        name="password"
                         type="password" 
                         id="loginPassword" 
                         class="form-input" 
@@ -124,7 +140,7 @@
         </form>
         
         <div class="auth-link">
-            Don't have an account? <a href="register.html" onclick="showRegisterForm()">Sign up</a>
+            Don't have an account? <a href="{{ route('register') }}" >Sign up</a>
         </div>
         
         <p class="security-text">Protected by industry-leading security</p>
@@ -190,7 +206,7 @@
 <script>
     lucide.createIcons()
   </script>
-    <script src="script.js"></script>
-    <script src="login.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/login.js"></script>
 </body>
 </html>

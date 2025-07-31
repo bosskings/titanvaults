@@ -1,34 +1,55 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 // home page
 Route::get('/', function(){ return view('index'); })->name('home') ;
 
 // about page
-Route::get('/about', function(){    return view('about'); })->name('about');
+Route::get('/about', function(){ return view('about'); })->name('about');
 
 // contact page 
 Route::get('/contact', function(){ return view('contact');})->name('contact');
 
 // login page
-Route::get('/login', function(){ return view('login'); })->name('login');
+Route::get('/login', [AuthenticationController::class, 'showLoginForm'] )->name('login');
+Route::post('/login',[AuthenticationController::class, 'login'] );
 
 //signup page
-Route::get('/register', function(){ return view('register'); })->name('register');
+Route::get('/register', [AuthenticationController::class, 'showRegisterForm'] )->name('register');
+Route::post('/register', [AuthenticationController::class, 'register'] );
 
 
-
-// protected route starts 
-
-// Route::middleware(){
-//     Route::get('/dashboard', function(){
-//         return view('dashboard');
-//     });
+// Authenticated Routes
+Route::middleware('auth')->group(function(){
     
-// }
+    
+    // for dashboard
+    Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
 
+    // for history
+    Route::get('/history', [DashboardController::class, 'showHistory'])->name('history');
 
 
+    // for deposit
+    Route::get('/deposit', [DashboardController::class, 'showDeposit'])->name('deposit');
 
+    // for withdraw
+    Route::get('/withdraw', [DashboardController::class, 'showWithdrawals'])->name('withdraw');
+
+    // for settings
+    Route::get('/settings', [DashboardController::class, 'showSettings'])->name('setting');
+
+    // for transactions
+    Route::get('/transactions', [DashboardController::class, 'showTransactions'])->name('transaction');
+
+
+    // for logout
+    Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+
+});
+
+// require __DIR__.'/auth.php';
