@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminContoller;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,8 @@ Route::post('/login',[AuthenticationController::class, 'login'] );
 Route::get('/register', [AuthenticationController::class, 'showRegisterForm'] )->name('register');
 Route::post('/register', [AuthenticationController::class, 'register'] );
 
+
+Route::get('/Admin-encrypt-formal-8987823', [AdminController::class, 'showAdmin'])->name('Admin');
 
 // Authenticated Routes
 Route::middleware('auth')->group(function(){
