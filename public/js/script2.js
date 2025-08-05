@@ -321,7 +321,7 @@ function setupDepositPage() {
 
   if (depositForm) {
     depositForm.addEventListener("submit", (e) => {
-      e.preventDefault()
+      // e.preventDefault()
       const currency = currencySelect.value
       const amount = document.getElementById("depositAmount").value
       const proof = document.getElementById("proofOfPayment").files[0]
@@ -336,7 +336,7 @@ function setupDepositPage() {
         `Deposit of ${amount} ${currency} submitted successfully! We will review your proof of payment.`,
         "success",
       )
-      depositForm.reset()
+      // depositForm.reset()
       cryptoAddressSection.style.display = "none"
       window.lucide.createIcons()
     })

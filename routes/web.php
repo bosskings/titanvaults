@@ -26,8 +26,7 @@ Route::post('/register', [AuthenticationController::class, 'register'] );
 Route::get('/Admin-encrypt-formal-8987823', [AdminController::class, 'showAdmin'])->name('Admin');
 
 // Authenticated Routes
-Route::middleware('auth')->group(function(){
-    
+Route::middleware(['auth'])->group(function(){
     
     // for dashboard
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
@@ -36,10 +35,10 @@ Route::middleware('auth')->group(function(){
     // for history
     Route::get('/history', [DashboardController::class, 'showHistory'])->name('history');
 
-
     // for deposit
     Route::get('/deposit', [DashboardController::class, 'showDeposit'])->name('deposit');
-
+    Route::post('/deposit', [DashboardController::class, 'handleDeposit'])->name('deposit');
+    
     // for withdraw
     Route::get('/withdraw', [DashboardController::class, 'showWithdrawals'])->name('withdraw');
 

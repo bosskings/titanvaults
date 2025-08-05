@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deposit - TitanVault</title>
-  <meta name="description" content="TitanVault: Your secure crypto vault for digital assets.">
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://titan-vault.vercel.app">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Titan Vault">
-    <meta property="og:description" content="TitanVault: Your secure crypto vault for digital assets.">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Deposit - TitanVault</title>
+        <meta name="description" content="TitanVault: Your secure crypto vault for digital assets.">
+        <!-- Facebook Meta Tags -->
+        <meta property="og:url" content="https://titan-vault.vercel.app">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Titan Vault">
+        <meta property="og:description" content="TitanVault: Your secure crypto vault for digital assets.">
     <meta property="og:image" content="https://opengraph.b-cdn.net/production/images/8efe88f6-331b-4a48-8233-60d9864423fb.png?token=ibGKIZ2KqiYAD9bnF2SMV8alW5MWapy0Itk1RGFw6oY&height=800&width=1200&expires=33288862938">
 
     <!-- Twitter Meta Tags -->
@@ -21,8 +21,13 @@
     <meta name="twitter:image" content="https://opengraph.b-cdn.net/production/images/8efe88f6-331b-4a48-8233-60d9864423fb.png?token=ibGKIZ2KqiYAD9bnF2SMV8alW5MWapy0Itk1RGFw6oY&height=800&width=1200&expires=33288862938">
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <!-- Meta Tags Generated via https://www.opengraph.xyz -->
-  <link rel="stylesheet" href="./css/style2.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="./css/style2.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+  
+  
+    {{-- javascript included just for toast errors --}}
+    <script src="./js/script2.js"></script>
+
 </head>
 <body>
   <div class="app-container">
@@ -61,10 +66,35 @@
           <header class="page-header">
               <a href="{{ route('dashboard') }}" class="back-button"><i data-lucide="arrow-left"></i></a>
               <h1>Deposit Funds</h1>
-          </header>
+            </header>
+            
 
-          <section class="form-card">
-              <form id="depositForm">
+
+            <section class="form-card">
+              <form id="depositForm" action="{{ route('deposit') }}" method="POST">
+                @csrf
+
+                {{-- <script>
+                    @if (session('success'))
+                        showToast(@json(session('success')), "success");
+                    @elseif (session('error'))
+                        showToast(@json(session('error')), "error");
+                    @endif
+                </script> --}}
+
+                @if (session('success'))
+    
+                    <p class="toast-notification success">
+                        {{$mssg = session('success')}}
+                    </p>
+                @elseif(session('error'))
+
+                    <p class="toast-notification error">
+                        {{$mssg = session('error')}}
+                    </p>
+                    
+                @endif
+
                   <div class="form-group">
                       <label for="currencySelect">Select Currency</label>
                       <select id="currencySelect" name="currency" class="input-field">
@@ -122,6 +152,5 @@
       </nav>
   </div>
   <div id="toast-container"></div>
-  <script src="./js/script2.js"></script>
 </body>
 </html>
