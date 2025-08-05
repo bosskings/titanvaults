@@ -12,29 +12,31 @@ class DashboardController extends Controller
         return view('userDashboard.dashboard');
     }
 
-
     // show history
     public function showTransactions(){
         return view('userDashboard.transactions');
     }
-
 
     //show withdrawals
     public function showWithdrawals(){
         return view('userDashboard.withdraw');
     }
 
-
     // show deposit
     public function showDeposit(){
         return view('userDashboard.deposit');
     }
+    
+    // handle deposit
+    public function handleDeposit(Request $request){
+        
+    }
+
+
 
     // show setting
     public function showSettings(){
         return view('userDashboard.settings');
     }
-
-    
 
 }

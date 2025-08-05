@@ -59,7 +59,7 @@
       <!-- Main Content Area -->
       <main class="main-content">
           <header class="page-header">
-              <a href="dashboard.html" class="back-button"><i data-lucide="arrow-left"></i></a>
+              <a href="{{ route('dashboard') }}" class="back-button"><i data-lucide="arrow-left"></i></a>
               <h1>Deposit Funds</h1>
           </header>
 
@@ -103,22 +103,22 @@
 
       <!-- Mobile Bottom Navigation -->
       <nav class="bottom-nav" id="mobile-bottom-nav">
-          <a href="dashboard.html" class="nav-item">
-              <i data-lucide="home"></i>
-              <span>Home</span>
-          </a>
-          <a href="recent-transactions.html" class="nav-item">
-              <i data-lucide="list-checks"></i>
-              <span>Transactions</span>
-          </a>
-          <a href="deposit.html" class="nav-item active">
-              <i data-lucide="banknote-arrow-up"></i>
-              <span>Deposit</span>
-          </a>
-          <a href="#" class="nav-item" id="logout-mobile">
-              <i data-lucide="log-out"></i>
-              <span>Logout</span>
-          </a>
+            <a href="{{ route('dashboard') }}" class="nav-item active">
+                <i data-lucide="home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{{ route('transaction') }}" class="nav-item">
+                <i data-lucide="list-checks"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="{{ route('deposit') }}" class="nav-item">
+                <i data-lucide="banknote-arrow-up"></i>
+                <span>Deposit</span>
+            </a>
+            <a href="{{ route('logout') }}" class="nav-item" id="logout-mobile">
+                <i data-lucide="log-out"></i>
+                <span>Logout</span>
+            </a>
       </nav>
   </div>
   <div id="toast-container"></div>

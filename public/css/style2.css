@@ -269,9 +269,11 @@ body {
 }
 
 .action-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
+  margin-top: 30px;
   justify-content: center;
 }
 
@@ -281,15 +283,16 @@ body {
   align-items: center;
   gap: 5px;
   background-color: var(--card-background);
-  border: 1px solid var(--border-color);
+  border: none;
   border-radius: 12px;
-  padding: 15px 10px;
+  padding: 15px 50px;
   text-decoration: none;
   color: var(--text-color);
   font-weight: 500;
   font-size: 0.85rem;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
+
 }
 
 .action-button:hover {
@@ -307,6 +310,7 @@ body {
   justify-content: center;
   margin-bottom: 5px;
   color: white;
+  padding: 10px;
 }
 
 .action-button .icon-wrapper i {

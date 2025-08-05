@@ -84,39 +84,39 @@
                       <i data-lucide="trending-up" class="text-green-500"></i>
                       <span class="text-green-500">2.7%</span>
                   </div>
+                  <div class="action-buttons">
+                      <a href="{{ route('withdraw') }}" class="action-button">
+                          <div class="icon-wrapper"><i data-lucide="arrow-up-to-line"></i></div>
+                          <span>Send</span>
+                      </a>
+                      <button class="action-button">
+                          <div class="icon-wrapper"><i data-lucide="repeat"></i></div>
+                          <span>Swap</span>
+                      </button>
+                      <a href="{{ route('deposit') }}" class="action-button">
+                          <div class="icon-wrapper"><i data-lucide="hand-coins"></i></div>
+                          <span>Receive</span>
+                      </a>
+                      <button class="action-button">
+                          <div class="icon-wrapper"><i data-lucide="dollar-sign"></i></div>
+                          <span>Withdraw</span>
+                      </button>
+                      {{-- <button class="action-button">
+                          <div class="icon-wrapper"><i data-lucide="banknote"></i></div>
+                          <span>Sell</span>
+                      </button> --}}
+                  </div>
               </div>
 
-              <div class="action-buttons">
-                  <button class="action-button">
-                      <div class="icon-wrapper"><i data-lucide="dollar-sign"></i></div>
-                      <span>Buy</span>
-                  </button>
-                  <button class="action-button">
-                      <div class="icon-wrapper"><i data-lucide="banknote"></i></div>
-                      <span>Sell</span>
-                  </button>
-                  <button class="action-button">
-                      <div class="icon-wrapper"><i data-lucide="repeat"></i></div>
-                      <span>Swap</span>
-                  </button>
-                  <a href="deposit.html" class="action-button">
-                      <div class="icon-wrapper"><i data-lucide="hand-coins"></i></div>
-                      <span>Receive</span>
-                  </a>
-                  <a href="withdraw.html" class="action-button">
-                      <div class="icon-wrapper"><i data-lucide="arrow-up-to-line"></i></div>
-                      <span>Send</span>
-                  </a>
-              </div>
           </section>
 
-          <section class="section-card">
+          {{-- <section class="section-card">
               <div class="section-header">
                   <h3>Your Crypto</h3>
                   <p>View your wallets, connect to Coinbase and more.</p>
                   <button class="icon-button"><i data-lucide="grid"></i></button>
               </div>
-              <!-- <div class="crypto-holdings">
+                <div class="crypto-holdings">
                   <div class="holding-card">
                       <div class="holding-header">
                           <div class="coin-icons">
@@ -148,8 +148,8 @@
                           <i data-lucide="arrow-right" class="ml-auto"></i>
                       </div>
                   </div>
-              </div> -->
-          </section>
+              </div>
+          </section> --}}
 
           <section class="section-card">
               <h3>Holdings</h3>
@@ -175,19 +175,19 @@
 
       <!-- Mobile Bottom Navigation -->
       <nav class="bottom-nav" id="mobile-bottom-nav">
-          <a href="dashboard.html" class="nav-item active">
+          <a href="{{ route('dashboard') }}" class="nav-item active">
               <i data-lucide="home"></i>
               <span>Home</span>
           </a>
-          <a href="recent-transactions.html" class="nav-item">
+          <a href="{{ route('transaction') }}" class="nav-item">
               <i data-lucide="list-checks"></i>
               <span>Transactions</span>
           </a>
-          <a href="deposit.html" class="nav-item">
+          <a href="{{ route('deposit') }}" class="nav-item">
               <i data-lucide="banknote-arrow-up"></i>
               <span>Deposit</span>
           </a>
-          <a href="#" class="nav-item" id="logout-mobile">
+          <a href="{{ route('logout') }}" class="nav-item" id="logout-mobile">
               <i data-lucide="log-out"></i>
               <span>Logout</span>
           </a>

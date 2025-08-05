@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminContoller;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\DashboardController;

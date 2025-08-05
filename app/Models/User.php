@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'balance',
         'coin',
+        'status',
         'deleted',
         'password',
     ];
@@ -48,6 +49,7 @@ class User extends Authenticatable
             'password' => 'string',
             'balance' => 'decimal:2',
             'coin' => 'integer',
+            'status' => 'enum',
             'deleted' => 'boolean',
         ];
     }
