@@ -71,16 +71,8 @@
 
 
             <section class="form-card">
-              <form id="depositForm" action="{{ route('deposit') }}" method="POST">
+              <form id="depositForm" action="{{ route('deposit') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
-                {{-- <script>
-                    @if (session('success'))
-                        showToast(@json(session('success')), "success");
-                    @elseif (session('error'))
-                        showToast(@json(session('error')), "error");
-                    @endif
-                </script> --}}
 
                 @if (session('success'))
     
