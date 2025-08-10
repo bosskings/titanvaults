@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -39,34 +40,42 @@ class DashboardController extends Controller
                 'proof' => 'required|file|mimes:jpg,jpeg,webp,png,img,ico,gif,pdf|max:10000'
             ]);
 
-            $account = Account::where('user_id', Auth::id())->first();
+            // $account = Account::where('user_id', Auth::id())->first();
 
             $imagePath = null;
             // get picture proof and add
             if ($request->hasFile('proof')) {
                 $filename = time() . '.' . $request->file('proof')->extension();
-                $imagePath = $request->file('proof')->storeAs('uploads', $filename, 'public');
+                $destinationPath = public_path('uploads');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+                $request->file('proof')->move($destinationPath, $filename);
+                $imagePath = 'uploads/' . $filename;
             }
 
-            if (!$account) {
-                // No account for this user, create one
-                $account = new Account();
-                $account->user_id = Auth::id();
-                $account->balance = $request->amount;
-                $account->coin = $request->currency;
-                $account->payment_proof = $imagePath;
-                $account->save();
-            } else {
-                // Update the existing account record with new deposit
-                $account->balance += $request->amount;
-                $account->coin = $request->currency;
-                $account->payment_proof = $imagePath;
-                $account->save();
-            }
+            
+            // store record
+            $account = new Account();
+            $account->user_id = Auth::id();
+            $account->amount = $request->amount;
+            $account->purpose = 'DEPOSIT';
+            $account->coin = $request->currency;
+            $account->payment_proof = $imagePath;
+            $account->save();
+        
 
             return redirect()->back()->with('success', 'Deposit successful');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Deposit failed: ' . $e->getMessage());
+       
+            // Log the error message to storage/logs/laravel.log
+            
+            Log::error('Deposit failed: ' . $e->getMessage(), [
+                'exception' => $e,
+                'user_id' => Auth::id(),
+                'request' => $request->all()
+            ]);
         }
     }
 

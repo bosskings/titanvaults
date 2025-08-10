@@ -73,6 +73,7 @@
 
           <section class="portfolio-summary">
               <div class="balance-card">
+                  <small class="label" style="font-size:12px; color:Red; border:1px solid rgb(235, 167, 167); display:inline-block; padding:0px 5px"> Unverified </small>
                   <p class="label">Portfolio Balance</p>
                   <div class="balance-display-wrapper">
                       <h2 class="balance-amount" id="portfolioBalance">$98,140.12</h2>
@@ -97,10 +98,10 @@
                           <div class="icon-wrapper"><i data-lucide="hand-coins"></i></div>
                           <span>Receive</span>
                       </a>
-                      <button class="action-button">
+                      <a href="{{ route('deposit') }}" class="action-button">
                           <div class="icon-wrapper"><i data-lucide="dollar-sign"></i></div>
                           <span>Withdraw</span>
-                      </button>
+                      </a>
                       {{-- <button class="action-button">
                           <div class="icon-wrapper"><i data-lucide="banknote"></i></div>
                           <span>Sell</span>

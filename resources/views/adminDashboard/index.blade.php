@@ -84,71 +84,166 @@
                 </div>
                 
                 <span id="lamb" style="margin: auto;"></span>
-                <div class="col-lg-4 col-md-12">
-                    <div class="card mcard_3">
-                        <div class="body">
-                            <h4 class="m-t-10">'.$customerName.'</h4>
-                            <div class="row">
-                                <div class="col-12">
-                                    <p class="text-muted">'.$bitcoinWalletAddress.'</p>
-                                    <p class="text-muted">'.$email.'</p>
+                
+                @foreach ($usersWithAccounts as $user)
+                    {{-- <pre>{{ print_r($user, true) }}</pre> --}}
 
-                                 
-                                   <div class="input-group mb-3">
-                                        <input type="number" class="form-control" placeholder="Total Balance" id="'.$user_id.'_valueInput" value="'.$accountBalance.'">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeBalance('.$user_id.')">change balance</a></span>
+                    @php
+                        // The controller sets $user['accounts'] to either an array of accounts or the string "NO Transaction"
+                        $accounts = $user['accounts'] ?? [];
+                    @endphp
+
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card mcard_3 ">
+                            <div class="body">
+                                <h4 class="m-t-10">{{ $user['first_name'].' '.$user['last_name']}}</h4>
+                                <div class="row">
+                                    <div class="col-12">
+                                    
+                                    <p class="text-muted">{{ $user['email']}}</p>
+
+
+                                  
+                                    @php
+                                        // Find the latest record with an unseen status
+                                        $latestUnseen = null;
+                                        if (is_array($accounts)) {
+                                            foreach ($accounts as $acc) {
+                                                if (isset($acc['status']) && strtolower($acc['status']) === 'unseen') {
+                                                    if ($latestUnseen === null || strtotime($acc['created_at']) > strtotime($latestUnseen['created_at'])) {
+                                                        $latestUnseen = $acc;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    @endphp
+
+                                    @if($latestUnseen)
+                                    <div class="row justify-content-center mb-3">
+                                        <div class="col-10">
+                                            <div class="d-flex flex-column align-items-center">
+                                                <div class="w-100 d-flex justify-content-between align-items-center px-4 py-3" style="background: #fff6f6; border-radius: 12px; box-shadow: 0 2px 12px 0 rgba(220,53,69,0.15); border: 1px solid #f8d7da;">
+                                                    <span class="font-weight-bold" style="color: #b71c1c; font-size: 1.2rem; letter-spacing: 1px;">
+                                                        {{ ucfirst($latestUnseen['purpose'] ?? 'Deposit') }}
+                                                    </span>
+                                                    <span class="font-weight-bold" style="color: #dc3545; font-size: 1.2rem;">
+                                                        ${{ number_format($latestUnseen['amount'] ?? 0, 2) }}
+                                                    </span>
+
+                                                    <small>
+                                                        {{$latestUnseen['coin']}}
+                                                    </small>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline-danger mt-2" style="min-width: 60px;">Ok</button>
+                                            </div>
                                         </div>
-                                        <div id = "resultPlace_'.$user_id.'"></div>
-
                                     </div>
+                                    @endif
 
-                                    <div class="input-group mb-3">
-                                        <input type="number" class="form-control" placeholder="Total Deposit" id="'.$user_id.'_TotalDeposit_valueInput" value="'.$total_deposit.'">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeTotalDeposit('.$user_id.')">change total deposit</a></span>
+                                    <div class="input-group mb-3" >
+                                        <input  type="number" class="form-control" placeholder="Total Balance" id="'.$user_id.'_valueInput" value="{{ isset($user['accounts'][0]['balance']) ? number_format($user['accounts'][0]['balance'], 2) : '0.00' }}">
+                                        <div  class="input-group-append">
+                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeBalance('.$user_id.')">change balance</a></span>
                                         </div>
-                                        <div id = "TotalDepositresultPlace_'.$user_id.'"></div>
+                                            <div id = "resultPlace_'.$user_id.'"></div>
 
-                                    </div>
-
-                                    <div class="input-group mb-3">
-                                        <input type="number" class="form-control" placeholder="Total profit" id="'.$user_id.'_TotalProfit_valueInput" value="'.$total_profit.'">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeTotalProfit('.$user_id.')">change total profit</a></span>
                                         </div>
-                                        <div id = "TotalProfitresultPlace_'.$user_id.'"></div>
 
-                                    </div>
+                                        <div class="input-group mb-3 " >
+                                            {{-- <input type="number"  placeholder="Total profit" id="'.$user_id.'_TotalReferenceBonus_valueInput" value="'.$total_withdrawals.'"> --}}
 
-                                    <div class="input-group mb-3">
-                                        <input type="number" class="form-control" placeholder="Total profit" id="'.$user_id.'_TotalReferenceBonus_valueInput" value="'.$total_withdrawals.'">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeTotalReferenceBonus('.$user_id.')">change total Withdrawals</a></span>
+                                            <select name="" id="" class="form-control">
+                                                <option value="Verified">Verified</option>
+                                                <option value="Verified">Unverified</option>
+                                                <option value="Verified">Pending</option>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeTotalReferenceBonus('.$user_id.')">Update Status</a></span>
+                                            </div>
+                                            <div id = "TotalReferenceBonusresultPlace_'.$user_id.'"></div>
+
                                         </div>
-                                        <div id = "TotalReferenceBonusresultPlace_'.$user_id.'"></div>
 
-                                    </div>
-
-                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Wallet ID" id="'.$user_id.'_personalWalletAddressInput" value="'.$bitcoinWalletAddress.'">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="DeleteUser('.$user_id.')">Delete User</a></span>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Wallet ID" id="'.$user_id.'_personalWalletAddressInput" value="'.$bitcoinWalletAddress.'">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="DeleteUser('.$user_id.')">Delete User</a></span>
+                                            </div>
+                                            <div id = "personalWalletAddressResultPlace_'.$user_id.'"></div>
+                                            
                                         </div>
-                                        <div id = "personalWalletAddressResultPlace_'.$user_id.'"></div>
 
+
+                                        <div style="max-height: 200px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 15px;">
+                                            <table class="table table-striped mb-0">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th scope="col">Type</th>
+                                                        <th scope="col">Amount</th>
+                                                        <th scope="col">Coin</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Pic</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if(is_string($accounts) && $accounts === "NO Transaction")
+                                                        <tr>
+                                                            <td colspan="5" class="text-center text-muted">No transactions found.</td>
+                                                        </tr>
+                                                    @elseif(is_array($accounts) && count($accounts) > 0)
+                                                        @foreach($accounts as $transaction)
+                                                            <tr>
+                                                                <td>{{ $transaction['purpose'] ?? '-' }}</td>
+                                                                <td>{{ $transaction['amount'] ?? '-' }}</td>
+                                                                <td>{{ $transaction['coin'] ?? '-' }}</td>
+                                                                <td>
+                                                                    @if(isset($transaction['status']) && $transaction['status'] === 'SEEN')
+                                                                        <span class="badge badge-success">Seen</span>
+                                                                    @else
+                                                                        <span class="badge badge-warning">Unseen</span>
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    @if(!empty($transaction['payment_proof']))
+                                                                        <a href="{{ asset($transaction['payment_proof']) }}" target="_blank">
+                                                                            <img src="{{ asset($transaction['payment_proof']) }}" alt="pic" width="50" height="50" class="rounded-circle">
+                                                                        </a>
+                                                                    @else
+                                                                        <span class="text-muted">No Pic</span>
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="5" class="text-center text-muted">No transactions found.</td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        
+                                        
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                
+                @endforeach
+
+
             </div>
         </div>
     </div>
 
 </section>
+
+{{-- js to handle admiin activities --}}
+<script src="./js/adminDash.js"></script>
+
+
 <!-- Jquery Core Js --> 
 <script src="./admin_assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js --> 
 <script src="./admin_assets/bundles/vendorscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js --> 

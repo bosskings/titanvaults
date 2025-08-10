@@ -274,19 +274,19 @@ function setupDepositPage() {
 
       switch (selectedValue) {
         case "BTC":
-          address = "bc1qxyz123abc456def789ghi0jklmnopqrstuvw"
+          address = "0xC8C6984045e2d4943B7D10848A996Ff262499B3E"
           currencyFullName = "Bitcoin (BTC)"
           break
         case "ETH":
-          address = "0xAbc123DeF456GhI789JkL012MnOpQ345RsT678UvW"
+          address = "0xC8C6984045e2d4943B7D10848A996Ff262499B3E"
           currencyFullName = "Ethereum (ETH)"
           break
         case "USDT":
-          address = "0x1234567890abcdef1234567890abcdef12345678" // ERC-20 USDT
+          address = "0xC8C6984045e2d4943B7D10848A996Ff262499B3E" // ERC-20 USDT
           currencyFullName = "Tether (USDT)"
           break
         case "USDC":
-          address = "0x9876543210fedcba9876543210fedcba98765432" // ERC-20 USDC
+          address = "0xC8C6984045e2d4943B7D10848A996Ff262499B3E" // ERC-20 USDC
           currencyFullName = "USD Coin (USDC)"
           break
         default:
