@@ -95,7 +95,19 @@
 
                     <div class="col-lg-4 col-md-12">
                         <div class="card mcard_3 ">
-                            <div class="body">
+                            @php
+                                // Determine border color based on user status
+                                $status = strtolower($user['status'] ?? '');
+                                $borderColor = '';
+                                if ($status === 'unverified') {
+                                    $borderColor = 'border: 2px solid #dc3545;'; // red
+                                } elseif ($status === 'pending') {
+                                    $borderColor = 'border: 2px solid orange;'; // orange
+                                } elseif ($status === 'verified') {
+                                    $borderColor = 'border: 2px solid #28a745;'; // green
+                                }
+                            @endphp
+                            <div class="body" style="{{ $borderColor }}">
                                 <h4 class="m-t-10">{{ $user['first_name'].' '.$user['last_name']}}</h4>
                                 <div class="row">
                                     <div class="col-12">
@@ -119,7 +131,7 @@
                                     @endphp
 
                                     @if($latestUnseen)
-                                    <div class="row justify-content-center mb-3">
+                                    <div class="row justify-content-center mb-3" id="statusArea">
                                         <div class="col-10">
                                             <div class="d-flex flex-column align-items-center">
                                                 <div class="w-100 d-flex justify-content-between align-items-center px-4 py-3" style="background: #fff6f6; border-radius: 12px; box-shadow: 0 2px 12px 0 rgba(220,53,69,0.15); border: 1px solid #f8d7da;">
@@ -134,46 +146,55 @@
                                                         {{$latestUnseen['coin']}}
                                                     </small>
                                                 </div>
-                                                <button class="btn btn-sm btn-outline-danger mt-2" style="min-width: 60px;">Ok</button>
+                                                <button onclick="makeSeen({{$latestUnseen['id']}})" class="btn btn-sm btn-outline-danger mt-2" style="min-width: 60px;">Ok</button>
                                             </div>
                                         </div>
                                     </div>
                                     @endif
 
                                     <div class="input-group mb-3" >
-                                        <input  type="number" class="form-control" placeholder="Total Balance" id="'.$user_id.'_valueInput" value="{{ isset($user['accounts'][0]['balance']) ? number_format($user['accounts'][0]['balance'], 2) : '0.00' }}">
-                                        <div  class="input-group-append">
-                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeBalance('.$user_id.')">change balance</a></span>
-                                        </div>
-                                            <div id = "resultPlace_'.$user_id.'"></div>
+                                        <input type="number" class="form-control" placeholder="Total Balance" id="balance{{$user['id']}}" value="{{$user['balance']}}">
 
+                                        <div  class="input-group-append">
+                                            <span class="input-group-text">
+                                                <a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeBalance({{$user['id']}})">change balance</a>
+                                            </span>
+                                        </div>
+                                            <br>
+                                            <div id="resultBalance{{$user['id']}}"></div>
                                         </div>
 
                                         <div class="input-group mb-3 " >
-                                            {{-- <input type="number"  placeholder="Total profit" id="'.$user_id.'_TotalReferenceBonus_valueInput" value="'.$total_withdrawals.'"> --}}
 
-                                            <select name="" id="" class="form-control">
-                                                <option value="Verified">Verified</option>
-                                                <option value="Verified">Unverified</option>
-                                                <option value="Verified">Pending</option>
+                                            <select id="status{{$user['id']}}" class="form-control">
+                                                <option value="status{{$user['status']}}" disabled selected>{{$user['status']}}</option>
+                                                <option value="verified">Verified</option>
+                                                <option value="unverified">Unverified</option>
+                                                <option value="pending">Pending</option>
                                             </select>
                                             <div class="input-group-append">
-                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeTotalReferenceBonus('.$user_id.')">Update Status</a></span>
+                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeStatus({{$user['id']}})">Update Status</a></span>
                                             </div>
-                                            <div id = "TotalReferenceBonusresultPlace_'.$user_id.'"></div>
+                                            <br>
+                                            <div id="resultStatus{{$user['id']}}"></div>
 
                                         </div>
 
+
+
+                                        {{-- section for suspending using --}}
+
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Wallet ID" id="'.$user_id.'_personalWalletAddressInput" value="'.$bitcoinWalletAddress.'">
+                                            <input type="text" class="form-control" placeholder="NO" id="suspend{{$user['id']}}" value="{{$user['deleted']}}">
                                             <div class="input-group-append">
-                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="DeleteUser('.$user_id.')">Delete User</a></span>
+                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="suspend_user( {{$user['id']}} )">suspend User</a></span>
                                             </div>
-                                            <div id = "personalWalletAddressResultPlace_'.$user_id.'"></div>
+                                            <div id="resultSuspend{{$user['id']}}"></div>
                                             
                                         </div>
 
 
+                                        {{-- area for account actions --}}
                                         <div style="max-height: 200px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 6px; margin-bottom: 15px;">
                                             <table class="table table-striped mb-0">
                                                 <thead class="thead-light">
@@ -240,9 +261,6 @@
 
 </section>
 
-{{-- js to handle admiin activities --}}
-<script src="./js/adminDash.js"></script>
-
 
 <!-- Jquery Core Js --> 
 <script src="./admin_assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js --> 
@@ -254,6 +272,10 @@
 <script src="./admin_assets/bundles/mainscripts.bundle.js"></script><!-- Custom Js -->
 <script src="./admin_assets/js/pages/medias/image-gallery.js"></script>
 <script src="./admin_assets/js/pages/calendar/calendar.js"></script>
+
+
+{{-- js to handle admiin activities --}}
+<script src="./js/adminDash.js"></script>
 </body>
 
 </html>

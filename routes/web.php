@@ -23,7 +23,14 @@ Route::get('/register', [AuthenticationController::class, 'showRegisterForm'] )-
 Route::post('/register', [AuthenticationController::class, 'register'] );
 
 
+// admin section starts
 Route::get('/Admin-encrypt-formal-8987823', [AdminController::class, 'showAdmin'])->name('Admin');
+
+Route::get('/approve_activity', [AdminController::class, 'approve_activity'])->name('approve_activity');
+Route::get('/change_balance', [AdminController::class, 'change_balance'])->name('change_balance');
+Route::get('/change_status', [AdminController::class, 'change_status'])->name('change_status');
+Route::get('/suspend_user', [AdminController::class, 'suspend_user'])->name('suspend_user');
+
 
 // Authenticated Routes
 Route::middleware(['auth'])->group(function(){
