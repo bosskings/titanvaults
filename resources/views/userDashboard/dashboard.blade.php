@@ -61,10 +61,9 @@
       <main class="main-content">
           <header class="dashboard-header">
               <div class="header-left">
-                  <h1 id="welcome-message">Hello, [User's Name]</h1>
+                  <h1 id="welcome-message">Hello, {{$user->first_name}}</h1>
               </div>
               <div class="header-right">
-                  <button class="icon-button"><i data-lucide="sliders"></i></button>
                   <a href="settings.html" class="profile-link">
                       <img id="headerProfilePicture" src="./images/profile.png" alt="Profile Picture" class="profile-picture-small">
                   </a>
@@ -72,21 +71,39 @@
           </header>
 
           <section class="portfolio-summary">
+            {{-- <pre>{{print_r($user, true)}}</pre> --}}
               <div class="balance-card">
-                  <small class="label" style="font-size:12px; color:Red; border:1px solid rgb(235, 167, 167); display:inline-block; padding:0px 5px"> Unverified </small>
+                  @php
+                      $status = strtolower($user->status ?? '');
+                      $statusColor = 'color: red; border:1px solid rgb(235, 167, 167);';
+                      if ($status === 'verified') {
+                          $statusColor = 'color: #28a745; border:1px solid #b6e7c9;';
+                      } elseif ($status === 'pending') {
+                          $statusColor = 'color: orange; border:1px solid #ffe5b4;';
+                      }
+                  @endphp
+                  <small class="label" style="font-size:12px; {{ $statusColor }} display:inline-block; padding:0px 5px">
+                      {{$user->status}}
+                  </small>
+
+
                   <p class="label">Portfolio Balance</p>
                   <div class="balance-display-wrapper">
-                      <h2 class="balance-amount" id="portfolioBalance">$98,140.12</h2>
+                      <h2 class="balance-amount" id="portfolioBalance" title="${{ $user->balance }}">
+                          ${{ $user->balance }}
+                      </h2>
                       <button class="icon-button balance-toggle-button" id="toggleBalanceVisibility">
                           <i data-lucide="eye"></i>
                       </button>
                   </div>
                   <div class="balance-change">
+                    
                       <i data-lucide="trending-up" class="text-green-500"></i>
-                      <span class="text-green-500">2.7%</span>
+                      {{$user->coin}}
+                      <span class="text-green-500"> 2.7%</span>
                   </div>
                   <div class="action-buttons">
-                      <a href="{{ route('withdraw') }}" class="action-button">
+                      <a href="{{ route('send') }}" class="action-button">
                           <div class="icon-wrapper"><i data-lucide="arrow-up-to-line"></i></div>
                           <span>Send</span>
                       </a>
@@ -98,7 +115,7 @@
                           <div class="icon-wrapper"><i data-lucide="hand-coins"></i></div>
                           <span>Receive</span>
                       </a>
-                      <a href="{{ route('deposit') }}" class="action-button">
+                      <a href="{{ route('withdraw') }}" class="action-button">
                           <div class="icon-wrapper"><i data-lucide="dollar-sign"></i></div>
                           <span>Withdraw</span>
                       </a>

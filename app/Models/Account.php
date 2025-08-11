@@ -24,6 +24,7 @@ class Account extends Model
         'purpose',
         'coin',
         'payment_proof',
+        'wallet_address',
         'status'
     ];
 }

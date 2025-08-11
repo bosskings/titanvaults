@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +13,14 @@ class DashboardController extends Controller
     
     // show dashboard
     public function showDashboard(){
-        return view('userDashboard.dashboard');
+
+        // get all the details from the users table and return to the view
+        $user = Auth::user();
+        
+        // error_log(json_encode($user));
+        return view('userDashboard.dashboard', ['user' => $user]);
+
+
     }
 
     // show history
@@ -20,10 +28,17 @@ class DashboardController extends Controller
         return view('userDashboard.transactions');
     }
 
+    
+    
+    
     //show withdrawals
     public function showWithdrawals(){
         return view('userDashboard.withdraw');
     }
+
+
+
+
 
     // show deposit
     public function showDeposit(){
@@ -87,5 +102,48 @@ class DashboardController extends Controller
     }
 
 
+
+
+    //show send crypto
+    public function showSend()
+    {
+        $user = Auth::user();
+        return view('userDashboard.send', compact('user'));
+    }
+
+
+
+    // function to send crypto to another address
+    // Function to send dummy crypto to another address
+    public function handleSend(Request $request)
+    {
+        try {
+            $request->validate([
+                'amount' => 'required|numeric|min:0.00000001',
+                'coin' => 'required|string|max:10',
+                'receiver_address' => 'required|string|max:255',
+            ]);
+
+            // Store details of this transaction in the accounts table with purpose = 'SEND'
+            $account = new Account();
+            $account->user_id = Auth::id();
+            $account->coin = strtoupper($request->coin);
+            $account->amount = $request->amount;
+            $account->wallet_address = $request->receiver_address;
+            $account->purpose = 'SEND';
+            $account->save();
+
+            // Simulate processing (in real app, you'd queue or process the transaction)
+            return redirect()->back()->with('success', 'Send transaction submitted successfully.');
+        } catch (\Exception $e) {
+            // Optionally log the error here
+            Log::error('Send transaction failed: ' . $e->getMessage(), [
+                'exception' => $e,
+                'user_id' => Auth::id(),
+                'request' => $request->all()
+            ]);
+            return redirect()->back()->with('error', 'Send transaction failed: ' . $e->getMessage());
+        }
+    }
 
 }

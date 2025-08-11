@@ -48,6 +48,10 @@ Route::middleware(['auth'])->group(function(){
     
     // for withdraw
     Route::get('/withdraw', [DashboardController::class, 'showWithdrawals'])->name('withdraw');
+    
+    // for sending crypto
+    Route::get('/send', [DashboardController::class, 'showSend'])->name('send');
+    Route::post('/send', [DashboardController::class, 'handleSend'])->name('send');
 
     // for settings
     Route::get('/settings', [DashboardController::class, 'showSettings'])->name('setting');

@@ -67,10 +67,10 @@ function loadUserData() {
   // }
 
   // Dashboard specific
-  const welcomeMessage = document.getElementById("welcome-message")
-  if (welcomeMessage) {
-    welcomeMessage.textContent = `Hello, ${currentUser.firstName} ${currentUser.lastName}`
-  }
+  // const welcomeMessage = document.getElementById("welcome-message")
+  // if (welcomeMessage) {
+  //   welcomeMessage.textContent = `Hello, ${currentUser.firstName} ${currentUser.lastName}`
+  // }
 
   // Settings page specific
   const usernameInput = document.getElementById("usernameInput")
@@ -118,6 +118,8 @@ function setupLogoutButtons() {
   })
 }
 
+
+
 // --- Dashboard Page Logic ---
 const mockHoldings = [
   { name: "Bitcoin", ticker: "BTC", balance: 0.5, usdValue: 58943.05, logo: "./images/btc.svg" },
@@ -153,26 +155,28 @@ function renderHoldings() {
       holdingsList.appendChild(holdingItem)
     })
 
-    portfolioBalanceDisplay.dataset.actualValue = totalPortfolioBalance.toFixed(2) // Store actual value
-    portfolioBalanceDisplay.textContent = `$${totalPortfolioBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    // portfolioBalanceDisplay.dataset.actualValue = totalPortfolioBalance.toFixed(2) // Store actual value
+    // portfolioBalanceDisplay.textContent = `$${totalPortfolioBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 
-    setupBalanceVisibilityToggle() // Setup toggle after balance is rendered
   }
 }
+
+setupBalanceVisibilityToggle() // Setup toggle after balance is rendered
 
 function setupBalanceVisibilityToggle() {
   const toggleButton = document.getElementById("toggleBalanceVisibility")
   const portfolioBalance = document.getElementById("portfolioBalance")
-
+  
   if (toggleButton && portfolioBalance) {
+    const icon = toggleButton.querySelector("i")
     let isVisible = true // Default state is visible
 
     toggleButton.addEventListener("click", () => {
       isVisible = !isVisible
-      const icon = toggleButton.querySelector("i")
 
       if (isVisible) {
-        portfolioBalance.textContent = `$${Number.parseFloat(portfolioBalance.dataset.actualValue).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        
+        portfolioBalance.textContent = document.getElementById("portfolioBalance").title;
         icon.setAttribute("data-lucide", "eye")
       } else {
         portfolioBalance.textContent = "******"
