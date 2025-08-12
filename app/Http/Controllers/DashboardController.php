@@ -45,6 +45,14 @@ class DashboardController extends Controller
             $user->coin = $request->toCurrency;
             $user->save();
 
+            // Save new record to account table for swap
+            $account = new Account();
+            $account->user_id = $user->id;
+            $account->coin = $request->toCurrency;
+            $account->purpose = 'SWAP';
+            $account->amount = $user->balance; // current balance after swap
+            $account->save();
+
             // Optionally, you can flash a message or redirect
             return redirect()->route('swap')->with('success', 'Your preferred coin has been updated to ' . $request->toCurrency . '.');
         } catch (\Exception $e) {
@@ -180,7 +188,50 @@ class DashboardController extends Controller
         return view('userDashboard.settings');
     }
 
+    // function to handle setting
 
+    public function handleSettings(Request $request){
+        try {
+            $user = User::find(Auth::id());
+
+            // Validate input
+            $request->validate([
+                'username' => 'required|string|max:255',
+                'email' => 'required|email',
+                'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            ]);
+
+            // Only allow update if the input email matches the logged-in user's email
+            if ($request->email !== $user->email) {
+                return redirect()->back()->with('error', 'Email does not match your account.');
+            }
+
+            // Handle profile picture upload if present
+            if ($request->hasFile('profile_picture')) {
+                $filename = time() . '.' . $request->file('profile_picture')->extension();
+                $destinationPath = public_path('uploads/profile');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+                $request->file('profile_picture')->move($destinationPath, $filename);
+                $user->profile_pic = 'uploads/profile/' . $filename;
+            }
+
+            // Update username
+            $user->user_name = $request->username;
+            $user->save();
+
+            return redirect()->back()->with('success', 'Settings updated successfully.');
+        } catch (\Exception $e) {
+            // Optionally log the error
+            Log::error('Settings update failed: ' . $e->getMessage(), [
+                'exception' => $e,
+                'user_id' => Auth::id(),
+                'request' => $request->all()
+            ]);
+            return redirect()->back()->with('error', 'Settings update failed: ' . $e->getMessage());
+        }
+    }
 
 
     //show send crypto
@@ -220,6 +271,15 @@ class DashboardController extends Controller
             ]);
             return redirect()->back()->with('error', 'Send transaction failed: ' . $e->getMessage());
         }
+    }
+
+
+
+    // show transactions page
+    public function showTransactions() {
+        
+        $accounts = Account::where('user_id', Auth::id())->get();
+        return view('userDashboard.transactions', compact('accounts'));
     }
 
 }

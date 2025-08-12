@@ -42,26 +42,26 @@
         <!-- Desktop/Tablet View Navigation Links -->
         <ul class="navbar-links-desktop" id="navbarLinksDesktop">
             <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="{{ route('about') }}">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
 
         <!-- Desktop/Tablet View Auth Buttons -->
         <div class="navbar-auth-desktop" id="navbarAuthDesktop">
-           <a href="register.html"><button class="signup-btn">Sign Up</button></a> 
-            <a href="login.html"><button class="login-btn">Login</button></a>
+           <a href="{{ route('register') }}"><button class="signup-btn">Sign Up</button></a> 
+            <a href="{{ route('login') }}"><button class="login-btn">Login</button></a>
         </div>
 
         <!-- Mobile Menu Content (hidden on desktop, shown on mobile via JS) -->
         <div class="mobile-menu-content" id="mobileMenuContent">
             <ul class="navbar-links-mobile">
                <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="{{ route('about') }}">About</a></li>
             <li><a href="#">Contact</a></li>
             </ul>
             <div class="navbar-auth-mobile">
-                <a href="register.html"><button class="signup-btn">Sign Up</button></a> 
-            <a href="login.html"><button class="login-btn">Login</button></a>
+                <a href="{{ route('register') }}"><button class="signup-btn">Sign Up</button></a> 
+            <a href="{{ route('login') }}"><button class="login-btn">Login</button></a>
             </div>
         </div>
     </nav>
@@ -270,6 +270,21 @@
         lucide.createIcons()
     </script>
 
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/689ac95de010901923f41e93/1j2ea563d';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+    
     <script src="./js/script.js"></script>
     <script src="./js/register.js"></script>
 </body>

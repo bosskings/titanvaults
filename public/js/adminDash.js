@@ -103,3 +103,46 @@ function suspend_user(id){
         }
     });
 }
+
+
+
+// Function to send custom email from admin dashboard
+function sendMail() {
+    var email = $('#Uemail').val();
+    var title = $('#emailSub').val();
+    var message = $('#writeUp').val();
+
+
+    // Show loading indicator
+    $('#lamb').html('<span style="color:blue;">Sending...</span>');
+
+    $.ajax({
+        url: "/admin_email",
+        type: "POST",
+        data: {
+            email: email,
+            title: title,
+            message: message,
+            // If you use Laravel's CSRF protection, include the token:
+            _token: typeof $('meta[name="csrf-token"]').attr('content') !== 'undefined' ? $('meta[name="csrf-token"]').attr('content') : undefined
+        },
+        success: function(data) {
+            if (data.success) {
+                $('#lamb').html('<span style="color:green;">Email sent successfully.</span>');
+                // Optionally clear the fields
+                $('#Uemail').val('');
+                $('#emailSub').val('');
+                $('#writeUp').val('');
+            } else {
+                $('#lamb').html('<span style="color:red;">' + (data.message || 'Failed to send email.') + '</span>');
+            }
+        },
+        error: function(xhr) {
+            let msg = 'Failed to send email.';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                msg = xhr.responseJSON.message;
+            }
+            $('#lamb').html('<span style="color:red;">' + msg + '</span>');
+        }
+    });
+}

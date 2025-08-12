@@ -76,8 +76,8 @@
             TitanVault is your all-in-one crypto command center — buy, hold, swap, spend, and grow your assets on your terms. Total control. Zero compromise.
         </p>
         <div class="hero-buttons">
-            <a href="register.html" class="btn btn-primary">Get Started</a>
-            <a href="about.html" class="btn btn-secondary">Learn More</a>
+            <a href="{{ route('register') }}" class="btn btn-primary">Get Started</a>
+            <a href="{{ route('about') }}" class="btn btn-secondary">Learn More</a>
         </div>
         <div class="hodl-pay-card">
             <i data-lucide="zap"></i>
@@ -95,8 +95,8 @@
                     <h2 class="crypto-section__title">Get the best rates, every time you trade.</h2>
                     <p class="crypto-section__description">TitanVault scans top providers to secure you the best value, whether you're buying or swapping crypto. No guesswork, just transparent deals and flexible payment options.</p>
                     <div class="crypto-section__buttons">
-                        <a href="login.html" class="crypto-section__btn--primary">Buy Crypto</a>
-                        <a href="login.html" class="crypto-section__btn--secondary">Swap Crypto</a>
+                        <a href="{{ route('login') }}" class="crypto-section__btn--primary">Buy Crypto</a>
+                        <a href="{{ route('login') }}" class="crypto-section__btn--secondary">Swap Crypto</a>
                     </div>
                 </div>
                 <div class="crypto-section__image-container">
@@ -122,8 +122,8 @@
                 </ul>
                 <a href="#" class="everything-section__link">Create Your Wallet <i data-lucide="arrow-right"></i></a>
                 <div class="everything-section__buttons">
-                    <a href="dashboard.html" class="everything-section__btn--primary">Launch Web<br>App</a>
-                    <a href="register.html" class="everything-section__btn--secondary">Sign Up for<br>TitanVault</a>
+                    <a href="{{ route('login')}}" class="everything-section__btn--primary">Launch Web<br>App</a>
+                    <a href="{{ route('register') }}" class="everything-section__btn--secondary">Sign Up for<br>TitanVault</a>
                 </div>
             </div>
         </div>
@@ -194,12 +194,12 @@
                 TitanVault compares real-time prices from leading providers so you always trade at the best rates with no hidden charges.
             </p>
             <div class="hero-actions-ii">
-                <a href="register.html">
+                <a href="{{ route('register') }}">
                     <button class="button-primary-ii">
                     Create Wallet
                 </button>
                 </a>
-                <a href="register.html">
+                <a href="{{ route('register') }}">
                     <button class="button-secondary-ii">
                     Start Swapping
                 </button>
@@ -327,6 +327,20 @@
 <script>
     lucide.createIcons()
   </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/689ac95de010901923f41e93/1j2ea563d';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
     <script src="./js/script.js"></script>
 </body>
 </html>

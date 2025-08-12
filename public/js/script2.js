@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupWithdrawalPage()
   setupSettingsPage()
   renderHoldings() // Call to render holdings on dashboard
-  renderTransactions() // Call to render transactions on recent-transactions page
+  //renderTransactions() // Call to render transactions on recent-transactions page
 })
 
 // --- Global Notification Functions ---
@@ -793,7 +793,7 @@ function setupSettingsPage() {
 
   if (settingsForm) {
     settingsForm.addEventListener("submit", (e) => {
-      e.preventDefault()
+      // e.preventDefault()
       const newUsername = usernameInput.value
       const currentUser = JSON.parse(localStorage.getItem("titanvault_current_user"))
 

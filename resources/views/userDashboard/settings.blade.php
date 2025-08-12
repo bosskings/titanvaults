@@ -29,10 +29,12 @@
   <div class="app-container">
       <!-- Desktop Sidebar -->
       <aside class="sidebar" id="desktop-sidebar">
-            <div class="sidebar-header">
+                <a href="{{ route('home') }}">
+                <div class="sidebar-header">
                 <img src="./images/titanvault.png" alt="TitanVault Logo" class="logo shield-logo">
                 <span class="app-name">TitanVault</span>
-            </div>
+                </div>
+            </a>
             <nav class="sidebar-nav">
                 <a href="{{ route('dashboard') }}" class="nav-item">
                     <i data-lucide="home"></i>
@@ -67,13 +69,23 @@
           <section class="form-card">
               <h2>Profile Settings</h2>
               <div class="profile-picture-section">
-                  <img id="profilePicture" src="./images/profile.png" alt="Profile Picture" class="profile-picture">
-                  <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+                  <img id="profilePicture" src="{{ !empty(Auth::user()->profile_pic) ? asset(Auth::user()->profile_pic) : asset('images/profile.png') }}" alt="Profile Picture" class="profile-picture">
                 </div>
                 
-                <form id="settingsForm" method="POST" action="{{ route('setting')}}">
+                <form id="settingsForm" method="POST" action="{{ route('setting')}}" enctype="multipart/form-data">
                     @csrf
+
+                    @if (session('success'))
+                        <p class="toast-notification success">
+                            {{$mssg = session('success')}}
+                        </p>
+                    @elseif(session('error'))
+                        <p class="toast-notification error">
+                            {{$mssg = session('error')}}
+                        </p>
+                    @endif
                     
+                    <input type="file" id="profilePictureInput" name="profile_picture" accept="image/*" style="display: none;">
                     <div style="display: flex; justify-content: center; margin: 1rem 0;">
                         <button type="button" 
                                 class="primary-button" 
@@ -89,7 +101,7 @@
                   </div>
                   <div class="form-group">
                       <label for="emailInput">Email</label>
-                      <input type="email" id="emailInput" name="email" class="input-field" disabled>
+                      <input type="email" id="emailInput" name="email" class="input-field" >
                   </div>
                   <button type="submit" class="primary-button w-full">Save Changes</button>
               </form>
@@ -117,6 +129,20 @@
         </nav>
     </div>
   <div id="toast-container"></div>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/689ac95de010901923f41e93/1j2ea563d';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
   <script src="./js/script2.js"></script>
 </body>
 </html>

@@ -28,10 +28,12 @@
 <div class="app-container">
     <!-- Desktop Sidebar -->
     <aside class="sidebar" id="desktop-sidebar">
-        <div class="sidebar-header">
-            <img src="./images/titanvault.png" alt="TitanVault Logo" class="logo shield-logo">
-            <span class="app-name">TitanVault</span>
-        </div>
+        <a href="{{ route('dashboard') }}">
+            <div class="sidebar-header">
+                <img src="./images/titanvault.png" alt="TitanVault Logo" class="logo shield-logo">
+                <span class="app-name">TitanVault</span>
+            </div>
+        </a>
         <nav class="sidebar-nav">
             <a href="{{ route('dashboard') }}" class="nav-item">
                 <i data-lucide="home"></i>
@@ -76,8 +78,8 @@
                 <h3>Your Balances</h3>
                 <ul id="user-balance-list" class="balance-list">
                     <li>
-                        <span class="coin-name" id="current-balance-coin">BTC</span>
-                        <span id="current-balance-amount" class="coin-balance">1.23456789</span>
+                        <span class="coin-name" id="">{{ Auth::user()->coin }}</span>
+                        <span id="current-balance-amount" class="">{{ Auth::user()->balance }}</span>
                     </li>
                 </ul>
             </div>
@@ -97,10 +99,10 @@
                 <div class="form-group">
                     <label for="fromCurrency">From</label>
                     <select id="fromCurrency" name="fromCurrency" class="input-field" required>
-                        <option value="BTC">Bitcoin (BTC)</option>
-                        <option value="ETH">Ethereum (ETH)</option>
-                        <option value="USDT">Tether (USDT)</option>
-                        <option value="USDC">USD Coin (USDC)</option>
+                        <option value="BTC" {{ (Auth::user()->coin == 'BTC') ? 'selected' : '' }}>Bitcoin (BTC)</option>
+                        <option value="ETH" {{ (Auth::user()->coin == 'ETH') ? 'selected' : '' }}>Ethereum (ETH)</option>
+                        <option value="USDT" {{ (Auth::user()->coin == 'USDT') ? 'selected' : '' }}>Tether (USDT)</option>
+                        <option value="USDC" {{ (Auth::user()->coin == 'USDC') ? 'selected' : '' }}>USD Coin (USDC)</option>
                     </select>
                 </div>
                 <div class="form-group" style="display: flex; align-items: flex-end; gap: 0.5rem;">
@@ -365,5 +367,19 @@
         border: 1px solid #ef4444;
     }
 </style>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/689ac95de010901923f41e93/1j2ea563d';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>
