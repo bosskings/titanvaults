@@ -100,17 +100,17 @@
                     
                       <i data-lucide="trending-up" class="text-green-500"></i>
                       {{$user->coin}}
-                      <span class="text-green-500"> 2.7%</span>
+                      <span class="text-green-500"></span>
                   </div>
                   <div class="action-buttons">
                       <a href="{{ route('send') }}" class="action-button">
                           <div class="icon-wrapper"><i data-lucide="arrow-up-to-line"></i></div>
                           <span>Send</span>
                       </a>
-                      <button class="action-button">
+                      <a href="{{ route('swap') }}" class="action-button">
                           <div class="icon-wrapper"><i data-lucide="repeat"></i></div>
                           <span>Swap</span>
-                      </button>
+                      </a>
                       <a href="{{ route('deposit') }}" class="action-button">
                           <div class="icon-wrapper"><i data-lucide="hand-coins"></i></div>
                           <span>Receive</span>

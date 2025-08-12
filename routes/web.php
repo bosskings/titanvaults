@@ -39,8 +39,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'showDashboard'])->name('dashboard');
 
 
-    // for history
-    Route::get('/history', [DashboardController::class, 'showHistory'])->name('history');
+    // for swap
+    Route::get('/swap', [DashboardController::class, 'showSwap'])->name('swap');
+    Route::post('/swap', [DashboardController::class, 'handleSwap'])->name('swap');
 
     // for deposit
     Route::get('/deposit', [DashboardController::class, 'showDeposit'])->name('deposit');
@@ -48,6 +49,7 @@ Route::middleware(['auth'])->group(function(){
     
     // for withdraw
     Route::get('/withdraw', [DashboardController::class, 'showWithdrawals'])->name('withdraw');
+    Route::post('/withdraw', [DashboardController::class, 'handleWithdrawals'])->name('withdraw');
     
     // for sending crypto
     Route::get('/send', [DashboardController::class, 'showSend'])->name('send');
@@ -58,7 +60,7 @@ Route::middleware(['auth'])->group(function(){
 
     // for transactions
     Route::get('/transactions', [DashboardController::class, 'showTransactions'])->name('transaction');
-
+    
 
     // for logout
     Route::get('/logout', [AuthenticationController::class, 'logout'])->name('logout');

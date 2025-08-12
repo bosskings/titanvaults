@@ -60,7 +60,7 @@
       <!-- Main Content Area -->
       <main class="main-content">
           <header class="page-header">
-              <a href="dashboard.html" class="back-button"><i data-lucide="arrow-left"></i></a>
+              <a href="{{ route('dashboard') }}" class="back-button"><i data-lucide="arrow-left"></i></a>
               <h1>Settings</h1>
           </header>
 
@@ -69,17 +69,27 @@
               <div class="profile-picture-section">
                   <img id="profilePicture" src="./images/profile.png" alt="Profile Picture" class="profile-picture">
                   <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
-                  <button type="button" class="secondary-button" id="changeProfilePictureButton">Change Profile Picture</button>
-              </div>
+                </div>
+                
+                <form id="settingsForm" method="POST" action="{{ route('setting')}}">
+                    @csrf
+                    
+                    <div style="display: flex; justify-content: center; margin: 1rem 0;">
+                        <button type="button" 
+                                class="primary-button" 
+                                id="changeProfilePictureButton"
+                                style="background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: 500; cursor: pointer;">
+                            Change Profile Picture
+                        </button>
+                    </div>
 
-              <form id="settingsForm">
                   <div class="form-group">
                       <label for="usernameInput">Username</label>
-                      <input type="text" id="usernameInput" class="input-field" placeholder="Enter your username">
+                      <input type="text" id="usernameInput" name="username" class="input-field" placeholder="Enter your username">
                   </div>
                   <div class="form-group">
                       <label for="emailInput">Email</label>
-                      <input type="email" id="emailInput" class="input-field" disabled>
+                      <input type="email" id="emailInput" name="email" class="input-field" disabled>
                   </div>
                   <button type="submit" class="primary-button w-full">Save Changes</button>
               </form>
