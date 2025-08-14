@@ -108,6 +108,7 @@ function suspend_user(id){
 
 // Function to send custom email from admin dashboard
 function sendMail() {
+    
     var email = $('#Uemail').val();
     var title = $('#emailSub').val();
     var message = $('#writeUp').val();

@@ -25,7 +25,7 @@ Route::post('/register', [AuthenticationController::class, 'register'] );
 
 // admin section starts
 Route::get('/Admin-encrypt-formal-8987823', [AdminController::class, 'showAdmin'])->name('Admin');
-Route::get('/admin_email', [AdminController::class, 'admin_email'])->name('admin_email');
+Route::post('/admin_email', [AdminController::class, 'admin_email'])->name('admin_email');
 
 Route::get('/approve_activity', [AdminController::class, 'approve_activity'])->name('approve_activity');
 Route::get('/change_balance', [AdminController::class, 'change_balance'])->name('change_balance');

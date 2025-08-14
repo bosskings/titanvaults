@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class AuthenticationController extends Controller
@@ -37,7 +38,10 @@ class AuthenticationController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
-                'password' => $request->password
+                'password' => Hash::make($request->password),
+                'balance' => 0,
+                'coin' => 'USD',
+                'deleted' => 'no',
             ]);
 
             

@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="./admin_assets/plugins/fullcalendar/fullcalendar.min.css">
 <!-- Custom Css -->
 <link rel="stylesheet" href="./admin_assets/css/style.min.css">
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="theme-blush">
@@ -35,7 +37,7 @@
 <aside id="leftsidebar" class="sidebar">
     <div class="navbar-brand">
         <button class="btn-menu ls-toggle-btn" type="button"><i class="zmdi zmdi-menu"></i></button>
-        <a><img src="./images/titanvault.jpeg" width="25" alt="uto"><span class="m-l-10">Bulls</span></a>
+        <a><img src="./images/titanvault.jpeg" width="25" alt="uto"><span class="m-l-10">Titan</span></a>
     </div>
     <div class="menu">
         <ul class="list">
@@ -43,7 +45,7 @@
                 <div class="user-info">
                     <a class="image"><img src="./images/titanvault.jpeg" alt=""></a>
                     <div class="detail">
-                        <h4>BullsTrades</h4>
+                        <h4>TitanVaults</h4>
                         <small>Super Admin</small>                        
                     </div>
                 </div>
@@ -59,7 +61,7 @@
                 <div class="col-lg-7 col-md-6 col-sm-12">
                     <h2>Admin Dashboard</h2>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#" style="color: rgb(120, 120, 120);">NxtEvnt-Trades</a></li>
+                        <li class="breadcrumb-item"><a href="#" style="color: rgb(120, 120, 120);">Titan-admin</a></li>
                     </ul>
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
                 </div>
@@ -273,6 +275,13 @@
 <script src="./admin_assets/js/pages/medias/image-gallery.js"></script>
 <script src="./admin_assets/js/pages/calendar/calendar.js"></script>
 
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
 
 {{-- js to handle admiin activities --}}
 <script src="./js/adminDash.js"></script>
