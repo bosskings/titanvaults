@@ -96,12 +96,12 @@
                     </div>
 
                   <div class="form-group">
-                      <label for="usernameInput">Username</label>
+                      <label for="usernameInput">Change Username</label>
                       <input type="text" id="usernameInput" name="username" class="input-field" placeholder="Enter your username">
                   </div>
                   <div class="form-group">
                       <label for="emailInput">Email</label>
-                      <input type="email" id="emailInput" name="email" class="input-field" >
+                      <input type="email" id="emailInput" value="{{ Auth::user()->email}}" disabled name="email" class="input-field" >
                   </div>
                   <button type="submit" class="primary-button w-full">Save Changes</button>
               </form>

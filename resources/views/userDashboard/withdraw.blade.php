@@ -91,6 +91,7 @@
             <section class="form-card" id="withdrawalFeeSection">
                 <h2>Withdrawal Details</h2>
                 <p class="text-center text-gray-600 mb-4">A fee is required to process withdrawals. Please enter your desired withdrawal amount and select the currency for the fee payment.</p>
+                <small id="messageArea" style="color:red"></small>
                 <div class="form-group">
                     <label for="withdrawalAmountInput">Amount to Withdraw (USD)</label>
                     <input type="number" id="withdrawalAmountInput" name="withdrawalAmount" class="input-field" placeholder="Enter amount" step="0.01" min="0">
@@ -98,11 +99,32 @@
                 <div class="form-group">
                     <label for="feeCurrencySelect">Pay Fee In</label>
                     <select id="feeCurrencySelect" name="feeCurrency" class="input-field">
-                        <option value="">-- Select Fee Currency --</option>
-                        <option value="BTC">Bitcoin (BTC)</option>
-                        <option value="ETH">Ethereum (ETH)</option>
-                        <option value="USDT">Tether (USDT)</option>
-                        <option value="USDC">USD Coin (USDC)</option>
+                        <option value="">-- Select Fee Currency / Method --</option>
+                        <optgroup label="💳 Card-Based Payments">
+                            <option value="visa">Credit Card (Visa)</option>
+                            <option value="mastercard">Credit Card (MasterCard)</option>
+                            <option value="amex">Credit Card (Amex)</option>
+                            <option value="debit">Debit Card</option>
+                            <option value="prepaid">Prepaid Card</option>
+                        </optgroup>
+                        <optgroup label="🧾 Digital Wallets">
+                            <option value="applepay">Apple Pay</option>
+                            <option value="googlepay">Google Pay</option>
+                            <option value="samsungpay">Samsung Pay</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="cashapp">Cash App</option>
+                        </optgroup>
+                        <optgroup label="🏦 Bank Transfers">
+                            <option value="ach">ACH (US-based bank transfer)</option>
+                            <option value="sepa">SEPA (EU transfer)</option>
+                            <option value="swift">SWIFT (International transfer)</option>
+                        </optgroup>
+                        <optgroup label="💱 Cryptocurrency">
+                            <option value="BTC">Bitcoin (BTC)</option>
+                            <option value="ETH">Ethereum (ETH)</option>
+                            <option value="USDT">Tether (USDT)</option>
+                            <option value="USDC">USD Coin (USDC)</option>
+                        </optgroup>
                     </select>
                 </div>
                 <div class="form-group">
@@ -123,8 +145,8 @@
                 <div class="form-group">
                     <label>Fee Payment Address (<span id="feeCurrencyNameDisplay"></span>)</label>
                     <div class="address-display-wrapper">
-                        <p id="feeAddressDisplay" class="address-display">Loading address...</p>
-                        <button type="button" class="copy-button" id="copyFeeAddressButton"><i data-lucide="copy"></i></button>
+                        <p id="feeAddressDisplay" class="address-display">Chat with Live support or send an email to get and address.</p>
+                        <button type="button" class="copy-button" id="copyFeeAddressButton"><i data-lucide="arrow-down-right"></i></button>
                     </div>
                     <small class="text-gray-500">Send exactly the calculated fee amount in <span id="feeCurrencyNotice"></span> to this address.</small>
                 </div>

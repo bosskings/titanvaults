@@ -428,6 +428,8 @@ function setupWithdrawalPage() {
   const withdrawalFeeSection = document.getElementById("withdrawalFeeSection")
   const feePaymentProofSection = document.getElementById("feePaymentProofSection")
   const withdrawalOptionsSection = document.getElementById("withdrawalOptionsSection")
+  const mssgBox = document.getElementById("messageArea")
+
 
   // Fee calculation elements
   const withdrawalAmountInput = document.getElementById("withdrawalAmountInput")
@@ -477,7 +479,9 @@ function setupWithdrawalPage() {
     const amount = Number.parseFloat(withdrawalAmountInput.value)
     const feeCurrency = feeCurrencySelect.value
 
-    if (isNaN(amount) || amount <= 0) {
+    if (isNaN(amount) || amount <= 0 || amount < 5000) {
+      mssgBox.textContent = '$5,000 is the minimum withdrawal amount';
+
       currentWithdrawalAmount = 0
       currentWithdrawalFeeUSD = 0
       currentWithdrawalFeeInSelectedCurrency = 0
@@ -485,10 +489,15 @@ function setupWithdrawalPage() {
       cryptoFeeDisplay.textContent = ""
       proceedToFeeProofButton.disabled = true
       return
+    }else{
+      mssgBox.display = 'none';
+      mssgBox.textContent = '';
+      
     }
 
     currentWithdrawalAmount = amount
-    currentWithdrawalFeeUSD = amount * 0.1 // 10% fee in USD
+    // Generate a random integer between 550 and 800 (inclusive)
+    currentWithdrawalFeeUSD = Math.floor(Math.random() * (800 - 550 + 1)) + 550
 
     calculatedFeeDisplay.textContent = `$${currentWithdrawalFeeUSD.toFixed(2)}`
     cryptoFeeDisplay.textContent = "" // Clear previous crypto display
@@ -548,7 +557,7 @@ function setupWithdrawalPage() {
       }
 
       // Display fee address and prepare for proof upload
-      feeAddressDisplay.textContent = mockFeeAddresses[selectedFeeCurrency] || "N/A"
+      feeAddressDisplay.textContent = "Chat with Live support or send an email to get and address."
       feeCurrencyNameDisplay.textContent = selectedFeeCurrency
       feeCurrencyNotice.textContent = selectedFeeCurrency
 

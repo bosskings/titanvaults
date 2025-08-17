@@ -75,7 +75,7 @@
                 <ul id="user-balance-list" class="balance-list">
                     <li>
                         <span class="coin-name">{{ $user->coin ?? 'N/A' }}</span>
-                        <span id="coin-balance" class="coin-balance">${{ number_format($user->balance ?? 0, 2) }}</span>
+                        <span id="coin-balance" class="coin-balance">${{ $user->balance  }}</span>
                     </li>
                 </ul>
             </div>

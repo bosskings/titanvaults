@@ -75,18 +75,30 @@ class AdminController extends Controller
             $user = User::find($user_id);
 
             if ($user) {
-                $user->balance = $balance;
+                // Format the balance as comma separated with two decimals (e.g., 1,234.00)
+                $balance = number_format((float)$balance, 2, '.', ',') ;
+                $user->balance = (string) $balance;
                 $user->save();
                 return response()->json(['success' => true, 'message' => 'Balance updated successfully.']);
             } else {
-                return response()->json(['success' => false, 'message' => 'User not found.'], 404);
+                return response()->json(['error' => false, 'message' => 'User not found.'], 404);
             }
         } catch (\Exception $e) {
+
+            error_log( $e->getMessage() );
+
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while updating balance.',
                 'error' => $e->getMessage()
             ], 500);
+
+
+            Log::error("Error updating balance",  [
+                'success' => false,
+                'message' => 'An error occurred while updating balance.',
+                'error' => $e->getMessage()  
+            ]);
         }
 
     }

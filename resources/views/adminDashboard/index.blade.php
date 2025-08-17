@@ -155,7 +155,7 @@
                                     @endif
 
                                     <div class="input-group mb-3" >
-                                        <input type="number" class="form-control" placeholder="Total Balance" id="balance{{$user['id']}}" value="{{$user['balance']}}">
+                                        <input type="text" class="form-control" placeholder="Total Balance" id="balance{{$user['id']}}" value="{{$user['balance']}}">
 
                                         <div  class="input-group-append">
                                             <span class="input-group-text">
@@ -173,6 +173,13 @@
                                                 <option value="verified">Verified</option>
                                                 <option value="unverified">Unverified</option>
                                                 <option value="pending">Pending</option>
+                                                <option value="Approval ">Approval </option>
+                                                <option value="Unapproved">Unapproved</option>
+                                                <option value="Upgrade">Upgrade</option>
+                                                <option value="Upgrading">Upgrading</option>
+                                                <option value="Upgraded">Upgraded</option>
+                                                <option value="suspended">suspended</option>
+
                                             </select>
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeStatus({{$user['id']}})">Update Status</a></span>
