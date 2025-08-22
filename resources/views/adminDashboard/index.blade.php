@@ -175,9 +175,8 @@
                                                 <option value="verified">Verified</option>
                                                 <option value="unverified">Unverified</option>
                                                 <option value="pending">Pending</option>
-                                                <option value="Approval ">Approval </option>
+                                                <option value="Approved ">Approved </option>
                                                 <option value="Unapproved">Unapproved</option>
-                                                <option value="Upgrade">Upgrade</option>
                                                 <option value="Upgrading">Upgrading</option>
                                                 <option value="Upgraded">Upgraded</option>
                                                 <option value="suspended">suspended</option>
