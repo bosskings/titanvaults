@@ -166,6 +166,8 @@
                                             <div id="resultBalance{{$user['id']}}"></div>
                                         </div>
 
+                                        {{-- change status --}}
+
                                         <div class="input-group mb-3 " >
 
                                             <select id="status{{$user['id']}}" class="form-control">
@@ -186,6 +188,23 @@
                                             </div>
                                             <br>
                                             <div id="resultStatus{{$user['id']}}"></div>
+
+                                        </div>
+
+
+                                        {{-- to upgrade users --}}
+                                        <div class="input-group mb-3 " >
+
+                                            <select id="upgraded{{$user['id']}}" class="form-control">
+                                                <option value="upgraded{{$user['upgraded']}}" disabled selected>{{$user['upgraded']}}</option>
+                                                <option value="NO">NO</option>
+                                                <option value="YES">YES</option>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><a style="color: blue; font-size: 12px; font-weight: bold;" onclick="changeUpgraded({{$user['id']}})">Upgraded</a></span>
+                                            </div>
+                                            <br>
+                                            <div id="resultUpgraded{{$user['id']}}"></div>
 
                                         </div>
 

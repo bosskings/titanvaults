@@ -601,34 +601,60 @@ function setupWithdrawalPage() {
         return
       }
 
-      // Show mandatory fee notice modal
-      showModal(
-        "Important Notice",
-        "Paying the withdrawal fee is mandatory for processing your withdrawal. If the fee is not paid, your withdrawal request will be cancelled.",
-        () => {
-          // This callback runs when "I Understand" is clicked
-          showToast("Fee proof submitted. Proceeding to withdrawal methods.", "success")
-          feePaymentProofSection.style.display = "none"
-          withdrawalOptionsSection.style.display = "block"
-          window.lucide.createIcons()
 
-          // Trigger EmailJS for fee payment confirmation (non-blocking)
-          sendWithdrawalConfirmationEmail(
-            {
-              firstName: JSON.parse(localStorage.getItem("titanvault_current_user")).firstName,
-              lastName: JSON.parse(localStorage.getItem("titanvault_current_user")).lastName,
-              email: JSON.parse(localStorage.getItem("titanvault_current_user")).email,
-            },
-            {
-              amount: currentWithdrawalAmount.toFixed(2), // The amount user intends to withdraw
-              feeUSD: currentWithdrawalFeeUSD.toFixed(2), // The calculated fee in USD
-              feeCryptoAmount: currentWithdrawalFeeInSelectedCurrency.toFixed(8), // Fee in selected crypto
-              feeCryptoCurrency: selectedFeeCurrency, // Selected crypto for fee
-              method: "Withdrawal Fee Payment Confirmation", // Specific method for this email
-            },
-          )
-        },
-      )
+       // using ajax, get the verification and upgraded status
+
+        // Very simple AJAX (XMLHttpRequest) to check a controller for a value and display messages
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/verification_status", true); // Adjust URL to your controller route
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              try {
+                
+                
+                var response = JSON.parse(xhr.responseText);
+
+                console.log(response);
+                
+                if (response.status != 'verified') {
+
+                  // Show mandatory fee notice modal
+                  showModal(
+                    "Important Notice",
+                    "Your account must be verified before withdrawal!.",
+                    () => {
+                      // This callback runs when "I Understand" is clicked
+                      window.location.reload();
+                    },
+                  )
+                }else if (response.upgraded != 'YES') {
+                  
+                  // Show mandatory fee notice modal
+                  showModal(
+                    "Important Notice",
+                    "Upgrade your account for higher withdrawal limits!.",
+                    () => {
+                      // This callback runs when "I Understand" is clicked
+                      window.location.reload();
+                    },
+                  )
+                }else{
+                  showToast("Account verified and upgraded, proceed to withdraw.", "success");
+                }
+
+
+              } catch (e) {
+                showToast("Could not check verification status.", "error");
+              }
+            } else {
+              showToast("Failed to check verification status.", "error");
+            }
+          }
+        };
+        xhr.send();
+
+      
     })
   }
 

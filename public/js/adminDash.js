@@ -78,6 +78,33 @@ function changeStatus(id){
 }
 
 
+// function to aid admin change upgraded
+function changeUpgraded(id){
+
+    $.ajax({
+        url: "/change_upgraded", // Route to search 
+        type: "GET",
+        data: { 
+            upgraded: $('#upgraded'+id).val(),
+            user_id: id
+        },
+
+        success: function(data) {
+            
+            if(data.success) {
+                $('#resultUpgraded'+id).append('<span style="color:green">success</span>')   
+            }
+        }, 
+        error: function(e) {
+            // console.error(e && e.responseJSON && e.responseJSON.message ? e.responseJSON.message : e);
+            
+            // Handle any errors in the AJAX request
+            $('#resultUpgraded'+id).append('<span style="color:red">Error occurred while searching</span>');
+        }
+    });
+}
+
+
 // function to suspend user
 function suspend_user(id){
 

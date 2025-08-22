@@ -30,6 +30,7 @@ Route::post('/admin_email', [AdminController::class, 'admin_email'])->name('admi
 Route::get('/approve_activity', [AdminController::class, 'approve_activity'])->name('approve_activity');
 Route::get('/change_balance', [AdminController::class, 'change_balance'])->name('change_balance');
 Route::get('/change_status', [AdminController::class, 'change_status'])->name('change_status');
+Route::get('/change_upgraded', [AdminController::class, 'change_upgraded'])->name('change_upgraded');
 Route::get('/suspend_user', [AdminController::class, 'suspend_user'])->name('suspend_user');
 
 
@@ -50,6 +51,7 @@ Route::middleware(['auth'])->group(function(){
     
     // for withdraw
     Route::get('/withdraw', [DashboardController::class, 'showWithdrawals'])->name('withdraw');
+    Route::get('/verification_status', [DashboardController::class, 'check_verification_status'])->name('check_verification_status');
     Route::post('/withdraw', [DashboardController::class, 'handleWithdrawals'])->name('withdraw');
     
     // for sending crypto

@@ -282,4 +282,21 @@ class DashboardController extends Controller
         return view('userDashboard.transactions', compact('accounts'));
     }
 
+
+
+
+
+    // this function would check the user status and help determine if user is eligible to withdraw or not
+    public function check_verification_status(Request $request){
+
+        $status = Auth::user()->status;
+        $upgraded = Auth::user()->upgraded;
+
+        return response()->json([
+            'status' => $status,
+            'upgraded' => $upgraded
+        ]);
+
+    }
+
 }

@@ -127,6 +127,28 @@ class AdminController extends Controller
 
 
 
+    // function to change user verification status
+    public function change_upgraded(Request $request){
+
+        $user_id = $request->input('user_id');
+        $upgraded = $request->input('upgraded');
+
+        // Find the user by id and update their status
+        $user = User::find($user_id);
+
+        if ($user) {
+            $user->upgraded = $upgraded;
+            $user->save();
+            return response()->json(['success' => true, 'message' => 'User upgraded successfully.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'User not found.'], 404);
+        }
+
+
+    }
+
+
+
     // function to suspend users
     public function suspend_user(Request $request){
 
