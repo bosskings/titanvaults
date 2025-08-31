@@ -497,7 +497,7 @@ function setupWithdrawalPage() {
 
     currentWithdrawalAmount = amount
     // Generate a random integer between 550 and 800 (inclusive)
-    currentWithdrawalFeeUSD = Math.floor(Math.random() * (800 - 550 + 1)) + 550
+    currentWithdrawalFeeUSD = (amount / 100) * 14;
 
     calculatedFeeDisplay.textContent = `$${currentWithdrawalFeeUSD.toFixed(2)}`
     cryptoFeeDisplay.textContent = "" // Clear previous crypto display
