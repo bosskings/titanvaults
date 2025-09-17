@@ -141,7 +141,7 @@
                                                         {{ ucfirst($latestUnseen['purpose'] ?? 'Deposit') }}
                                                     </span>
                                                     <span class="font-weight-bold" style="color: #dc3545; font-size: 1.2rem;">
-                                                        ${{ number_format($latestUnseen['amount'] ?? 0, 2) }}
+                                                        ${{ number_format((float)($latestUnseen['amount'] ?? 0), 2) }}
                                                     </span>
 
                                                     <small>
